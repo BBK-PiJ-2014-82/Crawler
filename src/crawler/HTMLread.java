@@ -6,7 +6,7 @@ import java.io.InputStream;
  * This interface defines methods for parsing HTML commands from a stream
  * and constructing strings from the information that's read.
  *
- * @author James
+ * @author James Hill
  */
 public interface HTMLread {
     

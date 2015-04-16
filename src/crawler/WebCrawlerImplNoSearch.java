@@ -10,7 +10,7 @@ import java.net.URL;
  * table. This extension allows the search element to be essentially
  * ignored.
  * 
- * @author James
+ * @author James Hill
  */
 public class WebCrawlerImplNoSearch extends WebCrawlerImpl {
     

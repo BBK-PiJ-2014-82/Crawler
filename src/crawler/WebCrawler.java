@@ -6,9 +6,9 @@ import java.net.URL;
 /**
  * The web crawler is a class that constructs a database of URL links.  Having
  * been provided a link it will perform a 'breadth-first' search of the links
- * that it can follow from the 1st web page.  It provides the possibility for
- * a complex 'search()' method to be called by the crawler method which can be
- * implemented in detail in future.
+ * that it can follow from the 1st web page using a temporary file to store
+ * a record of it's progress. It then stores results that meet criteria defined
+ * in implementations of the interface in a results file.
  * 
  * @author James Hill
  */
@@ -16,32 +16,16 @@ public interface WebCrawler {
         
     /**
      * This crawl method opens a HTTP connection to the starting URL and reviews
-     * the entire web page, saving links into a temporary table &
-     * allowing for a future 'search()' method that would scan a web page &
-     * add the page to a results table if the result was true. In the
-     * absence of a completed 'search()' method the crawler will always store
-     * the scanned links into the results table.
+     * the entire web page, saving links into a temporary table to record the
+     * progress of the crawler through it's crawl. A results table is also
+     * provided so that URL's which meet a criteria to be specified by the
+     * programmer in implementations of the interface can be stored for later
+     * review by the program user.
      * 
+     * @return the results file constructed by the crawler.
      * @param startURL the URL from which the WebCrawler will start crawling.
      * @param temp the file holding temporary links for crawling.
-     * @param results the file holding links identified through 'search()'.
+     * @param results the file holding links that meet specified criteria.
      */
-    void crawl(URL startURL, File temp, File results);
-    
-    /**
-     * This default method has been added for possible future implementation.
-     * The most recent URL crawled can be passed to the method along with a
-     * list of strings which the user would like to search the URL for. If any
-     * of the strings are found a 'true' value should be returned; otherwise a
-     * 'false' value should be returned. As this method is not required to be
-     * implemented for the current project it is now providing a default value
-     * of true.
-     * 
-     * @param currentURL the URL most recently process for links.
-     * @param searchTerms terms being searched for in provided URL.
-     * @return 
-     */
-    default boolean search(URL currentURL, String...searchTerms){
-        return true;
-    }
+    File crawl(URL startURL, File temp, File results);
 }

@@ -28,6 +28,12 @@ public abstract class WebCrawlerImpl implements WebCrawler {
     int maxDepth = 5;
     
     /**
+     * This integer records the number of links that have been processed by the
+     * web crawler. It is used to compare against the maxLinks integer.
+     */
+    int linksProcessed = 0;
+    
+    /**
      * This priority queue number is assigned to links on the temporary table.
      * The links will be given a priority number that reflects the depth of the
      * web page away from the initial URL provided to the class.

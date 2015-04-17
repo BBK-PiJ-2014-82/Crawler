@@ -13,6 +13,7 @@ public interface HTMLread {
     /**
      * This method consumes characters from the InputStream and stops when
      * either a char identical to 'ch1' or 'ch2' is encountered, ignoring case.
+     * If neither character is encountered a false should be returned.
      * 
      * @param in an input stream from a HTML file.
      * @param ch1 the character being searched for.

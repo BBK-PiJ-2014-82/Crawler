@@ -28,6 +28,13 @@ public abstract class WebCrawlerImpl implements WebCrawler {
     int maxDepth = 5;
     
     /**
+     * This priority queue number is assigned to links on the temporary table.
+     * The links will be given a priority number that reflects the depth of the
+     * web page away from the initial URL provided to the class.
+     */
+    int priority = 0;
+    
+    /**
      * This is the basic constructor without parameters for the WebCrawler.
      * This is used when the programmer wishes to use the default values for
      * the maxLinks and maxDepth variables.

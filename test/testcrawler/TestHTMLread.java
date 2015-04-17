@@ -38,7 +38,7 @@ public class TestHTMLread {
     @Before
     public void prepare(){
         // Convert the string into a list of 
-        chStream = new ByteArrayInputStream(chString.getBytes(StandardCharsets.UTF_8));
+        chStream = new ByteArrayInputStream(chString.getBytes(StandardCharsets.ISO_8859_1));
         reader = new HTMLreadImpl();
     }
     

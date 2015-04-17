@@ -47,7 +47,7 @@ public class TestHTMLread {
         // Close off the streams before ending the testing.
         try{chStream.close();}
         catch(IOException exception){
-            System.err.println("Error processing file: " + exception);
+            System.err.println("Error processing stream: " + exception);
         }
     }
     

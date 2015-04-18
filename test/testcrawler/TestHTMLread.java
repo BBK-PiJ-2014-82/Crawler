@@ -20,17 +20,21 @@ public class TestHTMLread {
     boolean exists = false;
     
     // Characters to be used in tests.
-    char ch1, ch2;
+    char ch1, ch2, ch3;
     
     // A string of characters for testing that the HTMLread methods can parse
     // correctly.
     String chString = "abcdefghijklmnopqrstuvwxyz 0123456789<>";
+    String whtString = "\\t\\n\\x0B\\f\\r aZ0";
+    String allwhtString = "\\t\\n\\x0B\\f\\r ";
     
     // A null String for testing empty input streams.
     String nullString = null;
     
     // InputStreams that can be passed strings to be parsed in the tests.
     InputStream chStream;
+    InputStream whtStream;
+    InputStream allwhtStream;
     
     // A HTMLreading object for parsing the strings.
     HTMLread reader;
@@ -39,6 +43,8 @@ public class TestHTMLread {
     public void prepare(){
         // Convert the string into a list of 
         chStream = new ByteArrayInputStream(chString.getBytes(StandardCharsets.ISO_8859_1));
+        whtStream = new ByteArrayInputStream(whtString.getBytes(StandardCharsets.ISO_8859_1));
+        allwhtStream = new ByteArrayInputStream(allwhtString.getBytes(StandardCharsets.ISO_8859_1));
         reader = new HTMLreadImpl();
     }
     
@@ -89,5 +95,33 @@ public class TestHTMLread {
         ch2 = '+';
         exists = reader.readUntil(chStream, ch1, ch2);
         assertFalse("Incorrect value returned when stream ends.", exists);
+    }
+    
+    @Test
+    public void checkSkipSpaceReturnsNull(){
+        ch1 = '\f';
+        ch2 = reader.skipSpace(whtStream, ch1);
+        assertEquals("Null character was not returned.", '\0', ch2);
+    }
+    
+    @Test
+    public void checkSkipSpaceReturnsNullIfSearchedCharIsFirstNonWhiteSpace(){
+        ch1 = 'a';
+        ch2 = reader.skipSpace(whtStream, ch1);
+        assertEquals("Null character was not returned.", '\0', ch2);
+    }
+    
+    @Test
+    public void checkSkipSpaceReturnsFirstNonWhiteSpaceChar(){
+        ch1 = '0';
+        ch2 = reader.skipSpace(whtStream, ch1);
+        assertEquals("Incorrect character was returned.", 'a', ch2);
+    }
+    
+    @Test
+    public void checkSkipSpaceReturnsNullWithAllWhiteSpace(){
+        ch1 = '0';
+        ch2 = reader.skipSpace(allwhtStream, ch1);
+        assertEquals("Incorrect character was returned.", '\0', ch2);
     }
 }

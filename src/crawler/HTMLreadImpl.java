@@ -52,5 +52,21 @@ public class HTMLreadImpl implements HTMLread {
     }
     
     @Override
-    public String readString(InputStream in, char ch1, char ch2){return null;}
+    public String readString(InputStream in, char ch1, char ch2){
+        try{
+            String foundString = "";
+            char check;
+            int next = in.read();
+            while(next != -1){
+                check = (char)next;
+                foundString = foundString + check;
+                if(check == ch1){return foundString;}
+                else if (check == ch2){return null;}
+                next = in.read();
+            }
+        } catch(IOException exception){
+            System.err.println("Error processing stream: " + exception);
+        }
+        return null;
+    }
 }

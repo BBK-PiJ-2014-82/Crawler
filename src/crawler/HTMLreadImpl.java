@@ -38,16 +38,14 @@ public class HTMLreadImpl implements HTMLread {
     
     @Override
     public char skipSpace(InputStream in, char ch){
-        InputStreamReader stream = new InputStreamReader(in);
-        BufferedReader buff = new BufferedReader(stream);
         try{
             char check;
-            int next = buff.read();
+            int next = in.read();
             while(next != -1){
                 check = (char)next;
                 if(check == ch){return '\0';}
                 else if (!Character.isWhitespace(check)){return check;}
-                next = buff.read();
+                next = in.read();
             }
         } catch(IOException exception){
             System.err.println("Error processing stream: " + exception);

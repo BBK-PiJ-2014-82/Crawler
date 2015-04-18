@@ -18,25 +18,21 @@ public class HTMLreadImpl implements HTMLread {
     
     @Override
     public boolean readUntil(InputStream in, char ch1, char ch2){
-        int next;
+        byte b;
         char check;
-        while(true){
-            try{
+        try{
+            int next = in.read();
+            while(next != -1){
+                b = (byte)next;
+                check = Character.toLowerCase((char)b);
+                if(check == Character.toLowerCase(ch1)){return true;}
+                else if (check == Character.toLowerCase(ch2)){return false;}
                 next = in.read();
-                if(next != -1){
-                    return false;
-                } else {
-                    check = (char)(byte)next;
-                    if(check == ch1){
-                        return true;
-                    } else if (check == ch2){
-                        return false;
-                    }
-                }
-            } catch(IOException exception){
-                System.err.println("Error processing stream: " + exception);
             }
+        } catch(IOException exception){
+            System.err.println("Error processing stream: " + exception);
         }
+        return false;
     }
     
     @Override

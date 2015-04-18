@@ -1,7 +1,9 @@
 package crawler;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * This is an implementation of the HTMLread class that is used for parsing
@@ -35,7 +37,23 @@ public class HTMLreadImpl implements HTMLread {
     }
     
     @Override
-    public char skipSpace(InputStream in, char ch){return 'a';}
+    public char skipSpace(InputStream in, char ch){
+        InputStreamReader stream = new InputStreamReader(in);
+        BufferedReader buff = new BufferedReader(stream);
+        try{
+            char check;
+            int next = buff.read();
+            while(next != -1){
+                check = (char)next;
+                if(check == ch){return '\0';}
+                else if (!Character.isWhitespace(check)){return check;}
+                next = buff.read();
+            }
+        } catch(IOException exception){
+            System.err.println("Error processing stream: " + exception);
+        }
+        return '\0';
+    }
     
     @Override
     public String readString(InputStream in, char ch1, char ch2){return null;}

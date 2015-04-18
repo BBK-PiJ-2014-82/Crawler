@@ -72,7 +72,7 @@ public class TestHTMLread {
         ch1 = 'Z';
         ch2 = '0';
         exists = reader.readUntil(chStream, ch1, ch2);
-        assertFalse("Character not found.", exists);
+        assertTrue("Character not found.", exists);
     }
     
     @Test

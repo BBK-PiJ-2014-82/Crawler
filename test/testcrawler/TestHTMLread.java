@@ -23,16 +23,14 @@ public class TestHTMLread {
     char ch1, ch2;
     
     // A string of characters for testing that the HTMLread methods can parse
-    // correctly. Plus another string for testing Chinese characters (hanzi).
+    // correctly.
     String chString = "abcdefghijklmnopqrstuvwxyz 0123456789<>";
-    String hzString = "我叫詹姆斯，我太太叫赛赛。";
     
     // A null String for testing empty input streams.
     String nullString = null;
     
     // InputStreams that can be passed strings to be parsed in the tests.
     InputStream chStream;
-    InputStream hzStream;
     
     // A HTMLreading object for parsing the strings.
     HTMLread reader;
@@ -41,7 +39,6 @@ public class TestHTMLread {
     public void prepare(){
         // Convert the string into a list of 
         chStream = new ByteArrayInputStream(chString.getBytes(StandardCharsets.ISO_8859_1));
-        hzStream = new ByteArrayInputStream(hzString.getBytes(StandardCharsets.UTF_8));
         reader = new HTMLreadImpl();
     }
     
@@ -92,21 +89,5 @@ public class TestHTMLread {
         ch2 = '+';
         exists = reader.readUntil(chStream, ch1, ch2);
         assertFalse("Incorrect value returned when stream ends.", exists);
-    }
-    
-    @Test
-    public void checkReadUntilStopsWhenFirstHanziEncountered(){
-        ch1 = '太';
-        ch2 = '赛';
-        exists = reader.readUntil(hzStream, ch1, ch2);
-        assertTrue("Hanzi not found.", exists);
-    }
-    
-    @Test
-    public void checkReadUntilStopsWhenSecondHanziEncountered(){
-        ch1 = '赢';
-        ch2 = '赛';
-        exists = reader.readUntil(hzStream, ch1, ch2);
-        assertFalse("Hanzi not found.", exists);
     }
 }

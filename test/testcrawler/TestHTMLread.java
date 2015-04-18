@@ -25,8 +25,8 @@ public class TestHTMLread {
     // A string of characters for testing that the HTMLread methods can parse
     // correctly.
     String chString = "abcdefghijklmnopqrstuvwxyz 0123456789<>";
-    String whtString = "\\t\\n\\x0B\\f\\r aZ0";
-    String allwhtString = "\\t\\n\\x0B\\f\\r ";
+    String whtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F aZ0";
+    String allwhtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F ";
     
     // A null String for testing empty input streams.
     String nullString = null;

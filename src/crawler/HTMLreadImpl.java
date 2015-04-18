@@ -1,5 +1,6 @@
 package crawler;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,14 +23,15 @@ public class HTMLreadImpl implements HTMLread {
     public boolean readUntil(InputStream in, char ch1, char ch2){
         char check;
         InputStreamReader stream = new InputStreamReader(in, StandardCharsets.UTF_8);
+        BufferedReader buff = new BufferedReader(stream);
         try{
-            int next = stream.read();
+            int next = buff.read();
             while(next != -1){
                 check = (char)next;
                 check = Character.toLowerCase(check);
                 if(check == Character.toLowerCase(ch1)){return true;}
                 else if (check == Character.toLowerCase(ch2)){return false;}
-                next = stream.read();
+                next = buff.read();
             }
         } catch(IOException exception){
             System.err.println("Error processing stream: " + exception);

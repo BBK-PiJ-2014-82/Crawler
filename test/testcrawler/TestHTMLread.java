@@ -27,6 +27,8 @@ public class TestHTMLread {
     String chString = "abcdefghijklmnopqrstuvwxyz 0123456789<>";
     String whtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F aZ0";
     String allwhtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F ";
+    String testString = "abcdefghijklmnopqrstuvwxy";
+    String blankString = null;
     
     // A null String for testing empty input streams.
     String nullString = null;
@@ -123,5 +125,37 @@ public class TestHTMLread {
         ch1 = '0';
         ch2 = reader.skipSpace(allwhtStream, ch1);
         assertEquals("Incorrect character was returned.", '\0', ch2);
+    }
+    
+    @Test
+    public void checkReadStringReturnsCorrectString(){
+        ch1 = 'z';
+        ch2 = '9';
+        blankString = reader.readString(chStream, ch1, ch2);
+        assertEquals("Incorrect string was returned.", testString, blankString);
+    }
+    
+    @Test
+    public void checkReadStringReturnsSingleCharacterString(){
+        ch1 = 'a';
+        ch2 = '9';
+        blankString = reader.readString(chStream, ch1, ch2);
+        assertEquals("Incorrect string was returned.", "a", blankString);
+    }
+    
+    @Test
+    public void checkReadStringReturnsNullFromChar2(){
+        ch1 = '9';
+        ch2 = 'z';
+        blankString = reader.readString(chStream, ch1, ch2);
+        assertEquals("Null was not returned.", null, blankString);
+    }
+    
+    @Test
+    public void checkReadStringReturnsNullIfNeitherCharFound(){
+        ch1 = '+';
+        ch2 = '-';
+        blankString = reader.readString(chStream, ch1, ch2);
+        assertEquals("Null was not returned.", null, blankString);
     }
 }

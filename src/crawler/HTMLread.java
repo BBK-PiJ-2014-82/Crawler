@@ -36,13 +36,14 @@ public interface HTMLread {
     /**
      * This method consumes characters from the InputStream and stops when
      * either a char identical to 'ch1' or 'ch2 is encountered, not ignoring
-     * case. It then returns either a string if 'ch1' is encountered, or a
-     * String 'null' if 'ch2' is encountered.
+     * case. It then returns either a string including 'ch1' if 'ch1' is
+     * encountered, or a String 'null' if 'ch2' is encountered. If neither char
+     * is found then the method will return a null.
      * 
      * @param in an input stream from a HTML file.
      * @param ch1 the character being searched for.
      * @param ch2 the character representing the end of a search attempt.
-     * @return the String searched for or a String 'null'.
+     * @return the String searched for including 'ch1' or a String 'null'.
      */
     String readString(InputStream in, char ch1, char ch2);
 }

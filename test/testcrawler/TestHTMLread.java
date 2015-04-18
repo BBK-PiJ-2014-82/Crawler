@@ -27,7 +27,7 @@ public class TestHTMLread {
     String chString = "abcdefghijklmnopqrstuvwxyz 0123456789<>";
     String whtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F aZ0";
     String allwhtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F ";
-    String testString = "abcdefghijklmnopqrstuvwxy";
+    String testString = "abcdefghijklmnopqrstuvwxyz";
     String blankString = null;
     
     // A null String for testing empty input streams.

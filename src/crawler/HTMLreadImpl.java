@@ -1,9 +1,7 @@
 package crawler;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * This is an implementation of the HTMLread class that is used for parsing

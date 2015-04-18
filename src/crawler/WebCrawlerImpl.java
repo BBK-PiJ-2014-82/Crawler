@@ -2,6 +2,7 @@ package crawler;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 /**
  * This is an abstract implementation of the WebCrawler class.  It provides a
@@ -39,6 +40,12 @@ public abstract class WebCrawlerImpl implements WebCrawler {
      * web page away from the initial URL provided to the class.
      */
     int priority = 0;
+    
+    /**
+     * This List will hold links scanned from a web page which can be iterated
+     * through to print out to the database.
+     */
+    List<String> links;
     
     /**
      * This is the basic constructor without parameters for the WebCrawler.

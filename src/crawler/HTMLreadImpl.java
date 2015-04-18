@@ -2,6 +2,8 @@ package crawler;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This is an implementation of the HTMLread class that is used for parsing
@@ -18,16 +20,16 @@ public class HTMLreadImpl implements HTMLread {
     
     @Override
     public boolean readUntil(InputStream in, char ch1, char ch2){
-        byte b;
         char check;
+        InputStreamReader stream = new InputStreamReader(in, StandardCharsets.UTF_8);
         try{
-            int next = in.read();
+            int next = stream.read();
             while(next != -1){
-                b = (byte)next;
-                check = Character.toLowerCase((char)b);
+                check = (char)next;
+                check = Character.toLowerCase(check);
                 if(check == Character.toLowerCase(ch1)){return true;}
                 else if (check == Character.toLowerCase(ch2)){return false;}
-                next = in.read();
+                next = stream.read();
             }
         } catch(IOException exception){
             System.err.println("Error processing stream: " + exception);

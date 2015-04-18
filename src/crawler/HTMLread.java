@@ -35,9 +35,9 @@ public interface HTMLread {
     
     /**
      * This method consumes characters from the InputStream and stops when
-     * either a char identical to 'ch1' or 'ch2 is encountered, ignoring case.
-     * It then returns either a string if 'ch1' is encountered, or a String
-     * 'null' if 'ch2' is encountered.
+     * either a char identical to 'ch1' or 'ch2 is encountered, not ignoring
+     * case. It then returns either a string if 'ch1' is encountered, or a
+     * String 'null' if 'ch2' is encountered.
      * 
      * @param in an input stream from a HTML file.
      * @param ch1 the character being searched for.

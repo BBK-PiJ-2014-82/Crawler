@@ -24,7 +24,8 @@ public interface HTMLread {
     
     /**
      * This method consumes up to and including the 1st non-whitespace
-     * char from the InputStream or up to and including 'ch'.
+     * char from the InputStream or up to and including 'ch'. If the string is
+     * entirely whitespace the method will return a null.
      * 
      * @param in an input stream from a HTML file.
      * @param ch a char that ends the method.

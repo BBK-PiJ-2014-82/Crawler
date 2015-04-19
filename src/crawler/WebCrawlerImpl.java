@@ -19,33 +19,33 @@ public abstract class WebCrawlerImpl implements WebCrawler {
     /**
      * The maximum number of links that will be searched by the 'crawl' method.
      */
-    int maxLinks = 1000;
+    private int maxLinks = 1000;
     
     /**
      * The maximum depth of links that will be searched by the 'crawl' method.
      * The depth is the number of links away from the original start URL that
      * the crawler will search.
      */
-    int maxDepth = 5;
+    private int maxDepth = 5;
     
     /**
      * This integer records the number of links that have been processed by the
      * web crawler. It is used to compare against the maxLinks integer.
      */
-    int linksProcessed = 0;
+    private int linksProcessed = 0;
     
     /**
      * This priority queue number is assigned to links on the temporary table.
      * The links will be given a priority number that reflects the depth of the
      * web page away from the initial URL provided to the class.
      */
-    int priority = 0;
+    private int priority = 0;
     
     /**
      * This List will hold links scanned from a web page which can be iterated
      * through to print out to the database.
      */
-    List<String> links;
+    private List<String> links;
     
     /**
      * This is the basic constructor without parameters for the WebCrawler.

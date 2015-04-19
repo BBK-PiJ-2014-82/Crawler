@@ -8,7 +8,7 @@ import java.util.List;
  * 
  * @author James Hill
  */
-public class HyperlinkListBuilderImpl {
+public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     
     /**
      * This baseURL is created if a HTML <base> command is found during the
@@ -31,10 +31,10 @@ public class HyperlinkListBuilderImpl {
     /**
      * This is the basic class constructor.
      */
-    HyperlinkListBuilderImpl(){}
+    public void HyperlinkListBuilderImpl(){}
     
     @Override
-    List<URL> createList(URL webpage) throws IllegalArgumentException {
+    public List<URL> createList(URL webpage) throws IllegalArgumentException {
         return linkList;
     }
 }

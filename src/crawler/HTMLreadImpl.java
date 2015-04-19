@@ -45,8 +45,8 @@ public class HTMLreadImpl implements HTMLread {
                 else if (!Character.isWhitespace(check)){return check;}
                 next = in.read();
             }
-        } catch(IOException exception){
-            System.err.println("Error processing stream: " + exception);
+        } catch(IOException exc){
+            System.err.println("Error processing stream: " + exc);
         }
         return '\0';
     }

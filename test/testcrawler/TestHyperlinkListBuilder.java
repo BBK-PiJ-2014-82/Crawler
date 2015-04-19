@@ -31,15 +31,25 @@ public class TestHyperlinkListBuilder {
     // List<URL>s for checkingn the results from the build object.
     List<URL> testList;
     
-    // Strings for building the mock HTML code.
-    String docType = "<!DOCTYPE html>";
-    String closeBody = "</body>";
-    String closeHTML = "</html>";
-    String hyperlink1 = "<a href=\"https://wikileaks.org/index.en.html\">";
-    String hyperlink2 = "<a href=\"https://www.torproject.org/\">";
-    String openBody = "<body>";
-    String openHTML = "<html>";
+    // Platform independent line separator.
+    String sep = System.getProperty("line.separator");
     
+    // Strings for building the mock HTML code.
+    String docType = "<!DOCTYPE html>" + sep;
+    String closeBody = "</body>" + sep;
+    String closeHead = "</head>" + sep;
+    String closeHTML = "</html>" + sep;
+    String hyperbase = "<base href=\"https://wikileaks.org/index.en.html/\">" + sep;
+    String hyperbaseUpper = "<BASE href=\"https://wikileaks.org/index.en.html/\">" + sep;
+    String hyperlink1 = "<a href=\"https://wikileaks.org\">Courage is contagious</a>" + sep;
+    String hyperlink2 = "<a href=\"http://www.google.com/\">Search!</a>" + sep;
+    String hyperlinkUpper1 = "<A href=\"https://wikileaks.org\">Courage is contagious</A>" + sep;
+    String hyperlinkUpper2 = "<A href=\"http://www.google.com/\">Search!</A>" + sep;
+    String openBody = "<body>" + sep;
+    String openHead = "<head>" + sep;
+    String openHTML = "<html>" + sep;
+    String relativeLink1 = "<a href=\"index\">Index</a>" + sep;
+    String relativeLink2 = "<a href=\"About\">About</a>" + sep;
     
     // Strings for the URL's that will be created.
     String doubleString;
@@ -108,6 +118,16 @@ public class TestHyperlinkListBuilder {
     
     @Test
     public void checkCreateListReturnsSingleRelativeHyperlink(){
+        singleRelativeString =
+                docType +
+                openHead +
+                hyperbase +
+                closeHead +
+                openHTML +
+                openBody +
+                relativeLink1 +
+                closeBody +
+                closeHTML;
         singleRelativeStream = new ByteArrayInputStream(singleRelativeString.getBytes(StandardCharsets.ISO_8859_1));
         testList = build.createList(singleRelativeStream);
         listSize = testList.size();
@@ -116,6 +136,17 @@ public class TestHyperlinkListBuilder {
     
     @Test
     public void checkCreateListReturnsTwoRelativeHyperlinks(){
+        doubleRelativeString =
+                docType +
+                openHead +
+                hyperbase +
+                closeHead +
+                openHTML +
+                openBody +
+                relativeLink1 +
+                relativeLink2 +
+                closeBody +
+                closeHTML;
         doubleRelativeStream = new ByteArrayInputStream(doubleRelativeString.getBytes(StandardCharsets.ISO_8859_1));
         testList = build.createList(doubleRelativeStream);
         listSize = testList.size();
@@ -124,6 +155,17 @@ public class TestHyperlinkListBuilder {
     
     @Test
     public void checkCreateListReturnsMixedTwoHyperlinks(){
+        mixed2RelativeString =
+                docType +
+                openHead +
+                hyperbase +
+                closeHead +
+                openHTML +
+                openBody +
+                relativeLink1 +
+                hyperlink1 +
+                closeBody +
+                closeHTML;
         mixed2RelativeStream = new ByteArrayInputStream(mixed2RelativeString.getBytes(StandardCharsets.ISO_8859_1));
         testList = build.createList(mixed2RelativeStream);
         listSize = testList.size();
@@ -132,6 +174,19 @@ public class TestHyperlinkListBuilder {
     
     @Test
     public void checkCreateListReturnsMixedFourHyperlinks(){
+        mixed4RelativeString =
+                docType +
+                openHead +
+                hyperbase +
+                closeHead +
+                openHTML +
+                openBody +
+                relativeLink1 +
+                hyperlink1 +
+                relativeLink2 +
+                hyperlink2 +
+                closeBody +
+                closeHTML;
         mixed4RelativeStream = new ByteArrayInputStream(mixed4RelativeString.getBytes(StandardCharsets.ISO_8859_1));
         testList = build.createList(mixed4RelativeStream);
         listSize = testList.size();
@@ -140,6 +195,19 @@ public class TestHyperlinkListBuilder {
     
     @Test
     public void checkCreateListReturnsMixedFourHyperlinksWithUpperCaseCommands(){
+        mixed4RelativeUpperString =
+                docType +
+                openHead +
+                hyperbaseUpper +
+                closeHead +
+                openHTML +
+                openBody +
+                relativeLink1 +
+                hyperlinkUpper1 +
+                relativeLink2 +
+                hyperlinkUpper2 +
+                closeBody +
+                closeHTML;
         mixed4RelativeUpperStream = new ByteArrayInputStream(mixed4RelativeUpperString.getBytes(StandardCharsets.ISO_8859_1));
         testList = build.createList(mixed4RelativeUpperStream);
         listSize = testList.size();

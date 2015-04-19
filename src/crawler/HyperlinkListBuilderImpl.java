@@ -40,14 +40,16 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     private URL baseURL;
     
     /**
-     * This is the basic class constructor.
+     * This is the basic class constructor. It creates a new HTMLread object
+     * that can be used across by all methods to parse strings from InputStream.
      */
-    public void HyperlinkListBuilderImpl(){}
+    public void HyperlinkListBuilderImpl(){
+        reader = new HTMLreadImpl();
+    }
     
     @Override
     public List<URL> createList(InputStream in) {
-        linkList = new LinkedList<URL>();
-        reader = new HTMLreadImpl();
+        linkList = new LinkedList<>();
         char cmd;
         String command;
         String URLtext;
@@ -60,13 +62,17 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                         command = reader.readString(in, ' ', '>');
                         switch(command){
                             case "a":       URLtext = extractHTML(in);
-                                            tempURL = new URL(URLtext);
-                                            linkList.add(tempURL);
+                                            if(!URLtext.isEmpty()){
+                                                tempURL = new URL(URLtext);
+                                                linkList.add(tempURL);
+                                            }
                                             break;
-                            case "base":    URLtext = extractHTML(in);
-                                            if(!bodyReached){
-                                                baseURL = new URL(URLtext);
-                                                linkList.add(baseURL);
+                            case "base":    if(!bodyReached){
+                                                URLtext = extractHTML(in);
+                                                if(!URLtext.isEmpty()){
+                                                    baseURL = new URL(URLtext);
+                                                    linkList.add(baseURL);
+                                                }
                                             }
                                             break;
                             case "body":    bodyReached = true;
@@ -79,5 +85,21 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
             System.err.println("Error processing stream: " + exc);
         }
         return linkList;
+    }
+    
+    /**
+     * This private method captures text that appears to be a hyperlink from
+     * an InputStream. If no valid hyperlink text is found the method returns
+     * a null.
+     * 
+     * @param in an InputStream where a hyperlink is expected.
+     * @return a valid hyperlink text or a null. 
+     */
+    private String extractHTML(InputStream in){
+        String URLtext = null;
+        if(reader.readUntil(in, '"', '>')){
+            URLtext = reader.readString(in, '"', '>');
+        }
+        return URLtext;
     }
 }

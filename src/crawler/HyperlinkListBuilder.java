@@ -19,8 +19,8 @@ public interface HyperlinkListBuilder {
      * the responsibility of the programmer using this class to check the URL
      * before passing it to this method.
      * 
-     * @return the list of hyperlinks stored as strings.
+     * @return the list of hyperlinks stored as URLs.
      * @param webpage this is the HTML document that will be scanned for links.
      */
-    List<String> createList(URL webpage) throws IllegalArgumentException;
+    List<URL> createList(URL webpage) throws IllegalArgumentException;
 }

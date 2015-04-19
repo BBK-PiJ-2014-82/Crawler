@@ -11,6 +11,13 @@ import java.util.List;
 public class HyperlinkListBuilderImpl {
     
     /**
+     * This baseURL is created if a HTML <base> command is found during the
+     * scan of the provided URL. This is then used to construct any relative
+     * URL's found in the rest of the document.
+     */
+    private URL baseURL;
+    
+    /**
      * This notes whether the <body> command has been reached in the HTML doc
      * while it is being scanned.
      */
@@ -19,7 +26,7 @@ public class HyperlinkListBuilderImpl {
     /**
      * This is the List in which the hyperlinks will be stored.
      */
-    private List<String> linkList;
+    private List<URL> linkList;
     
     /**
      * This is the basic class constructor.
@@ -27,7 +34,7 @@ public class HyperlinkListBuilderImpl {
     HyperlinkListBuilderImpl(){}
     
     @Override
-    List<String> createList(URL webpage) throws IllegalArgumentException {
+    List<URL> createList(URL webpage) throws IllegalArgumentException {
         return linkList;
     }
 }

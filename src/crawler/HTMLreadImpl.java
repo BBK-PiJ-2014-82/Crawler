@@ -28,8 +28,8 @@ public class HTMLreadImpl implements HTMLread {
                 else if (check == Character.toLowerCase(ch2)){return false;}
                 next = in.read();
             }
-        } catch(IOException exception){
-            System.err.println("Error processing stream: " + exception);
+        } catch(IOException exc){
+            System.err.println("Error processing stream: " + exc);
         }
         return false;
     }
@@ -64,8 +64,8 @@ public class HTMLreadImpl implements HTMLread {
                 else if (check == ch2){return null;}
                 next = in.read();
             }
-        } catch(IOException exception){
-            System.err.println("Error processing stream: " + exception);
+        } catch(IOException exc){
+            System.err.println("Error processing stream: " + exc);
         }
         return null;
     }

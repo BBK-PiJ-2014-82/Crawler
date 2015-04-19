@@ -17,7 +17,8 @@ public interface HyperlinkListBuilder {
      * URL provided and return it as a List object. If the URL does not point
      * to a HTML file then the method throws an IllegalArgumentException. It is
      * the responsibility of the programmer using this class to check the URL
-     * before passing it to this method.
+     * before passing it to this method. An IllegalArgumentException is also
+     * thrown if the the connection returns an error.
      * 
      * @return the list of hyperlinks stored as URLs.
      * @param webpage this is the HTML document that will be scanned for links.

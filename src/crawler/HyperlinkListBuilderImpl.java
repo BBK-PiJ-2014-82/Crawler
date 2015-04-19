@@ -1,5 +1,6 @@
 package crawler;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     public void HyperlinkListBuilderImpl(){}
     
     @Override
-    public List<URL> createList(URL webpage) throws IllegalArgumentException {
+    public List<URL> createList(InputStream in) {
         return linkList;
     }
 }

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -138,6 +139,7 @@ public class TestHyperlinkListBuilder {
         try{
             testURL1 = new URL(link1);
             testURL2 = new URL(link2);
+            checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             assertTrue("URLs not in list", testList.containsAll(checkList));
@@ -196,6 +198,7 @@ public class TestHyperlinkListBuilder {
         try{
             testURL1 = new URL(hyperbase + relativeLink1);
             testURL2 = new URL(hyperbase + relativeLink2);
+            checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             assertTrue("URLs not in list", testList.containsAll(checkList));
@@ -227,6 +230,7 @@ public class TestHyperlinkListBuilder {
         try{
             testURL1 = new URL(hyperbase + relativeLink1);
             testURL2 = new URL(hyperlink1);
+            checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             assertTrue("URLs not in list", testList.containsAll(checkList));
@@ -262,6 +266,7 @@ public class TestHyperlinkListBuilder {
             testURL2 = new URL(hyperbase + relativeLink2);
             testURL3 = new URL(hyperlink1);
             testURL4 = new URL(hyperlink2);
+            checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             checkList.add(testURL3);
@@ -299,6 +304,7 @@ public class TestHyperlinkListBuilder {
             testURL2 = new URL(hyperbaseUpper + relativeLink2);
             testURL3 = new URL(hyperlinkUpper1);
             testURL4 = new URL(hyperlinkUpper2);
+            checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             checkList.add(testURL3);

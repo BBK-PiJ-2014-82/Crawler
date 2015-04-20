@@ -83,15 +83,19 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
             switch(command.toLowerCase()){
                 case "":        URLtext = extractHTML(in);
                                 if(!URLtext.isEmpty()){
-                                    tempURL = new URL(URLtext);
-                                    linkList.add(tempURL);
+                                    if(!checkRelative(URLtext)){
+                                        tempURL = new URL(URLtext);
+                                        linkList.add(tempURL);
+                                    } else if (baseURL != null && bodyReached){
+                                        tempURL = new URL(baseURL, URLtext);
+                                        linkList.add(tempURL);
+                                    }
                                 }
                                 break;
                 case "ase":     if(!bodyReached){
                                     URLtext = extractHTML(in);
                                     if(!URLtext.isEmpty()){
                                         baseURL = new URL(URLtext);
-                                        linkList.add(baseURL);
                                     }
                                 }
                                 break;
@@ -117,5 +121,15 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
             URLtext = reader.readString(in, '"', '>');
         }
         return URLtext;
+    }
+    
+    /**
+     * This method checks if the string represents either a relative or absolute
+     * URL.
+     */
+    private boolean checkRelative(String URLtext){
+        String testHTTP;
+        testHTTP = URLtext.substring(0, 3).toLowerCase();
+        return testHTTP.contains("http");
     }
 }

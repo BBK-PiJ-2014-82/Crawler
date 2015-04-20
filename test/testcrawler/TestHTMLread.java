@@ -27,7 +27,7 @@ public class TestHTMLread {
     String chString = "abcdefghijklmnopqrstuvwxyz 0123456789<>";
     String whtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F aZ0";
     String allwhtString = "\t\n\u000B\f\r\u001C\u001D\u001E\u001F ";
-    String testString = "abcdefghijklmnopqrstuvwxyz";
+    String testString = "abcdefghijklmnopqrstuvwxy";
     String blankString = null;
     
     // A null String for testing empty input streams.
@@ -140,7 +140,7 @@ public class TestHTMLread {
         ch1 = 'a';
         ch2 = '9';
         blankString = reader.readString(chStream, ch1, ch2);
-        assertEquals("Incorrect string was returned.", "a", blankString);
+        assertEquals("Incorrect string was returned.", "", blankString);
     }
     
     @Test

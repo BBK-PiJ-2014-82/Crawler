@@ -60,7 +60,7 @@ public class TestHyperlinkListBuilder {
     String closeHead = "</head>" + sep;
     String closeHTML = "</html>" + sep;
     String hyperbase = "<base href=\""+base+"\">" + sep;
-    String hyperbaseUpper = "<BASE href=\"https://wikileaks.org/index.en.html/\">" + sep;
+    String hyperbaseUpper = "<BASE href=\""+base+"\">" + sep;
     String hyperlink1 = "<a href=\""+link1+"\">Courage is contagious</a>" + sep;
     String hyperlink2 = "<a href=\""+link2+"\">Search!</a>" + sep;
     String hyperlinkUpper1 = "<A href=\""+link1+"\">Courage is contagious</A>" + sep;

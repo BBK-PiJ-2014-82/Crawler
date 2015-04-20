@@ -56,11 +56,16 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
         try {
             do{
                 if(reader.readUntil(in, '<', sep)){
-                    cmd = Character.toLowerCase(reader.skipSpace(in, sep));
-                    if(cmd == 'a' || cmd == 'b'){
-                        command = reader.readString(in, ' ', '>');
-                        if(command != null){
-                            enactCommand(command, in);
+                    command = reader.readString(in, '>', sep);
+                    if(command != null){
+                        command = command.toLowerCase();
+                        if(command.length() > 5){
+                            if(command.substring(0, 2).contentEquals("a ") ||
+                                command.substring(0, 4).contentEquals("base") ||
+                                command.substring(0, 4).contentEquals("body")){
+                                    String comm = extractCommand(command);
+                                    enactCommand(command, comm);
+                            }
                         }
                     }
                 }
@@ -73,15 +78,30 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     }
     
     /**
+     * This private method extracts the command from a string. Returns a null
+     * if a relevant command cannot be extracted.
+     */
+    private String extractCommand(String command){
+        if(command.substring(0, 2).contentEquals("a ")){
+            return "a";
+        } else if (command.substring(0, 4).contentEquals("base")){
+            return "base";
+        } else if (command.substring(0, 4).contentEquals("body")){
+            return "body";
+        }
+        return null;
+    }
+    
+    /**
      * This private method checks the command string that has been identified
      * from the input stream and acts upon the command that has been found.
      */
-    private void enactCommand(String command, InputStream in){
+    private void enactCommand(String command, String comm){
         String URLtext;
         URL tempURL;
         try{
             switch(command.toLowerCase()){
-                case "":        URLtext = extractHTML(in);
+                case "a":       URLtext = extractHTML(comm);
                                 if(!URLtext.isEmpty()){
                                     if(!checkRelative(URLtext)){
                                         tempURL = new URL(URLtext);
@@ -92,14 +112,14 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                     }
                                 }
                                 break;
-                case "ase":     if(!bodyReached){
-                                    URLtext = extractHTML(in);
+                case "base":    if(!bodyReached){
+                                    URLtext = extractHTML(comm);
                                     if(!URLtext.isEmpty()){
                                         baseURL = new URL(URLtext);
                                     }
                                 }
                                 break;
-                case "ody":     bodyReached = true;
+                case "body":    bodyReached = true;
                 default:        break;
             }
         } catch (MalformedURLException exc) {
@@ -115,10 +135,11 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * @param in an InputStream where a hyperlink is expected.
      * @return a valid hyperlink text or a null. 
      */
-    private String extractHTML(InputStream in){
+    private String extractHTML(String comm){
         String URLtext = null;
-        if(reader.readUntil(in, '"', '>')){
-            URLtext = reader.readString(in, '"', '>');
+        if(comm.contains("href=")){
+            int index = comm.indexOf("href=");
+            URLtext = comm.substring(index, comm.indexOf("\"", index));
         }
         return URLtext;
     }

@@ -59,9 +59,9 @@ public class HTMLreadImpl implements HTMLread {
             int next = in.read();
             while(next != -1){
                 check = (char)next;
-                foundString = foundString + check;
                 if(check == ch1){return foundString;}
                 else if (check == ch2){return null;}
+                foundString = foundString + check;
                 next = in.read();
             }
         } catch(IOException exc){

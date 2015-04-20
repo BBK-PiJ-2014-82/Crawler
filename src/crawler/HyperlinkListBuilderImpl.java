@@ -2,6 +2,7 @@ package crawler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     /**
      * This object provides methods for parsing the HTML document streamed.
      */
-    private HTMLread reader;
+    private final HTMLread reader;
     
     /**
      * This is the List in which the hyperlinks will be stored.
@@ -52,8 +53,6 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
         linkList = new LinkedList<>();
         char cmd;
         String command;
-        String URLtext;
-        URL tempURL;
         try {
             do{
                 if(reader.readUntil(in, '<', sep)){
@@ -61,24 +60,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                     if(cmd == 'a' || cmd == 'b'){
                         command = reader.readString(in, ' ', '>');
                         if(command != null){
-                            switch(command.toLowerCase()){
-                                case "":        URLtext = extractHTML(in);
-                                                if(!URLtext.isEmpty()){
-                                                    tempURL = new URL(URLtext);
-                                                    linkList.add(tempURL);
-                                                }
-                                                break;
-                                case "ase":     if(!bodyReached){
-                                                    URLtext = extractHTML(in);
-                                                    if(!URLtext.isEmpty()){
-                                                        baseURL = new URL(URLtext);
-                                                        linkList.add(baseURL);
-                                                    }
-                                                }
-                                                break;
-                                case "ody":     bodyReached = true;
-                                default:        break;
-                            }
+                            enactCommand(command, in);
                         }
                     }
                 }
@@ -88,6 +70,37 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
             System.err.println("Error processing stream: " + exc);
         }
         return linkList;
+    }
+    
+    /**
+     * This private method checks the command string that has been identified
+     * from the input stream and acts upon the command that has been found.
+     */
+    private void enactCommand(String command, InputStream in){
+        String URLtext;
+        URL tempURL;
+        try{
+            switch(command.toLowerCase()){
+                case "":        URLtext = extractHTML(in);
+                                if(!URLtext.isEmpty()){
+                                    tempURL = new URL(URLtext);
+                                    linkList.add(tempURL);
+                                }
+                                break;
+                case "ase":     if(!bodyReached){
+                                    URLtext = extractHTML(in);
+                                    if(!URLtext.isEmpty()){
+                                        baseURL = new URL(URLtext);
+                                        linkList.add(baseURL);
+                                    }
+                                }
+                                break;
+                case "ody":     bodyReached = true;
+                default:        break;
+            }
+        } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
     }
     
     /**

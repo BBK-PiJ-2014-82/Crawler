@@ -3,6 +3,7 @@ package testcrawler;
 import crawler.HyperlinkListBuilder;
 import crawler.HyperlinkListBuilderImpl;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -112,7 +113,10 @@ public class TestHyperlinkListBuilder {
         try{
             testURL1 = new URL(link1);
             assertTrue("URL not in list", testList.contains(testURL1));
+            singleStream.close();
         } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -137,7 +141,10 @@ public class TestHyperlinkListBuilder {
             checkList.add(testURL1);
             checkList.add(testURL2);
             assertTrue("URLs not in list", testList.containsAll(checkList));
+            doubleStream.close();
         } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -161,7 +168,10 @@ public class TestHyperlinkListBuilder {
         try{
             testURL1 = new URL(hyperbase + relativeLink1);
             assertTrue("URL not in list", testList.contains(testURL1));
+            singleRelativeStream.close();
         } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -189,7 +199,10 @@ public class TestHyperlinkListBuilder {
             checkList.add(testURL1);
             checkList.add(testURL2);
             assertTrue("URLs not in list", testList.containsAll(checkList));
+            doubleRelativeStream.close();
         } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -217,7 +230,10 @@ public class TestHyperlinkListBuilder {
             checkList.add(testURL1);
             checkList.add(testURL2);
             assertTrue("URLs not in list", testList.containsAll(checkList));
+            mixed2RelativeStream.close();
         } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -251,7 +267,10 @@ public class TestHyperlinkListBuilder {
             checkList.add(testURL3);
             checkList.add(testURL4);
             assertTrue("URLs not in list", testList.containsAll(checkList));
+            mixed4RelativeStream.close();
         } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -285,7 +304,10 @@ public class TestHyperlinkListBuilder {
             checkList.add(testURL3);
             checkList.add(testURL4);
             assertTrue("URLs not in list", testList.containsAll(checkList));
+            mixed4RelativeUpperStream.close();
         } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }

@@ -129,7 +129,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      */
     private boolean checkRelative(String URLtext){
         String testHTTP;
-        testHTTP = URLtext.substring(0, 3).toLowerCase();
-        return testHTTP.contains("http");
+        testHTTP = URLtext.substring(0, 4).toLowerCase();
+        return !testHTTP.contains("http");
     }
 }

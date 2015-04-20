@@ -20,7 +20,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     private boolean bodyReached = false;
     
     // Platform independent line separator.
-    private char sep = System.getProperty("line.separator").charAt(0);
+    final private char sep = System.getProperty("line.separator").charAt(0);
     
     /**
      * This object provides methods for parsing the HTML document streamed.
@@ -43,7 +43,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * This is the basic class constructor. It creates a new HTMLread object
      * that can be used across by all methods to parse strings from InputStream.
      */
-    public void HyperlinkListBuilderImpl(){
+    public HyperlinkListBuilderImpl(){
         reader = new HTMLreadImpl();
     }
     
@@ -60,27 +60,30 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                     cmd = reader.skipSpace(in, sep);
                     if(cmd == 'a' || cmd == 'b'){
                         command = reader.readString(in, ' ', '>');
-                        switch(command){
-                            case "a":       URLtext = extractHTML(in);
-                                            if(!URLtext.isEmpty()){
-                                                tempURL = new URL(URLtext);
-                                                linkList.add(tempURL);
-                                            }
-                                            break;
-                            case "base":    if(!bodyReached){
-                                                URLtext = extractHTML(in);
+                        if(command != null){
+                            switch(command){
+                                case "a":       URLtext = extractHTML(in);
                                                 if(!URLtext.isEmpty()){
-                                                    baseURL = new URL(URLtext);
-                                                    linkList.add(baseURL);
+                                                    tempURL = new URL(URLtext);
+                                                    linkList.add(tempURL);
                                                 }
-                                            }
-                                            break;
-                            case "body":    bodyReached = true;
-                            default:        break;
+                                                break;
+                                case "base":    if(!bodyReached){
+                                                    URLtext = extractHTML(in);
+                                                    if(!URLtext.isEmpty()){
+                                                        baseURL = new URL(URLtext);
+                                                        linkList.add(baseURL);
+                                                    }
+                                                }
+                                                break;
+                                case "body":    bodyReached = true;
+                                default:        break;
+                            }
                         }
                     }
                 }
-            } while(in.read() != -1);
+            } while(in.available() != 0);
+            in.close();
         } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }

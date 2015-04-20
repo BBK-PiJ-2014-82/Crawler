@@ -57,18 +57,18 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
         try {
             do{
                 if(reader.readUntil(in, '<', sep)){
-                    cmd = reader.skipSpace(in, sep);
+                    cmd = Character.toLowerCase(reader.skipSpace(in, sep));
                     if(cmd == 'a' || cmd == 'b'){
                         command = reader.readString(in, ' ', '>');
                         if(command != null){
-                            switch(command){
-                                case "a":       URLtext = extractHTML(in);
+                            switch(command.toLowerCase()){
+                                case "":        URLtext = extractHTML(in);
                                                 if(!URLtext.isEmpty()){
                                                     tempURL = new URL(URLtext);
                                                     linkList.add(tempURL);
                                                 }
                                                 break;
-                                case "base":    if(!bodyReached){
+                                case "ase":     if(!bodyReached){
                                                     URLtext = extractHTML(in);
                                                     if(!URLtext.isEmpty()){
                                                         baseURL = new URL(URLtext);
@@ -76,7 +76,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                                     }
                                                 }
                                                 break;
-                                case "body":    bodyReached = true;
+                                case "ody":     bodyReached = true;
                                 default:        break;
                             }
                         }

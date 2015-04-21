@@ -15,7 +15,7 @@ public class HTMLreadImpl implements HTMLread {
     /**
      * This is the constructor for HTMLread objects.
      */
-    public void HTMLreadImpl(){}
+    HTMLreadImpl(){}
     
     @Override
     public boolean readUntil(InputStream in, char ch1, char ch2){

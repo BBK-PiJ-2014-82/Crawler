@@ -14,12 +14,6 @@ import java.util.List;
  */
 public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     
-    /**
-     * This notes whether the <body> command has been reached in the HTML doc
-     * while it is being scanned.
-     */
-    private boolean bodyReached = false;
-    
     // Platform independent line separator.
     final private char sep = System.getProperty("line.separator").charAt(0);
     
@@ -55,9 +49,9 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
         try {
             do{
                 if(reader.readUntil(in, '<', sep)){
-                    char c = reader.skipSpace(in, sep);
+                    char c = Character.toLowerCase(reader.skipSpace(in, sep));
                     if(c != '\0' && (c == 'a' || c == 'b')){
-                        tag = c + reader.readString(in, ' ', sep);
+                        tag = c + reader.readString(in, ' ', '>');
                         String command = extractCommand(tag);
                         if(command != null){
                             enactCommand(in, command);
@@ -81,8 +75,6 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
             return "a";
         } else if (tag.substring(0, 4).contentEquals("base")){
             return "base";
-        } else if (tag.substring(0, 4).contentEquals("body")){
-            return "body";
         }
         return null;
     }
@@ -101,20 +93,16 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                     if(!checkRelative(URLtext)){
                                         tempURL = new URL(URLtext);
                                         linkList.add(tempURL);
-                                    } else if (baseURL != null && bodyReached){
+                                    } else if (baseURL != null){
                                         tempURL = new URL(baseURL, URLtext);
                                         linkList.add(tempURL);
                                     }
                                 }
                                 break;
-                case "base":    if(!bodyReached){
-                                    URLtext = extractHTML(in);
-                                    if(!URLtext.isEmpty()){
-                                        baseURL = new URL(URLtext);
-                                    }
+                case "base":    URLtext = extractHTML(in);
+                                if(!URLtext.isEmpty()){
+                                    baseURL = new URL(URLtext);
                                 }
-                                break;
-                case "body":    bodyReached = true;
                 default:        break;
             }
         } catch (MalformedURLException exc) {
@@ -132,7 +120,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      */
     private String extractHTML(InputStream in){
         char tempChar;
-        String URLtext;
+        String URLtext = "";
         do{
             tempChar = reader.skipSpace(in, sep);
             if(tempChar == 'h' || tempChar == 'H'){
@@ -145,7 +133,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                 }
             }
         } while(tempChar != '\0');
-        return URLtext = "";
+        return URLtext;
     }
     
     /**

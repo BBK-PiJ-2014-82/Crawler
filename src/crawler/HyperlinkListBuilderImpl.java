@@ -51,20 +51,19 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     @Override
     public List<URL> createList(InputStream in) {
         linkList = new LinkedList<>();
-        char cmd;
-        String command;
+        String tag;
         try {
             do{
                 if(reader.readUntil(in, '<', sep)){
-                    command = reader.readString(in, '>', sep);
-                    if(command != null){
-                        command = command.toLowerCase();
-                        if(command.length() > 5){
-                            if(command.substring(0, 2).contentEquals("a ") ||
-                                command.substring(0, 4).contentEquals("base") ||
-                                command.substring(0, 4).contentEquals("body")){
-                                    String comm = extractCommand(command);
-                                    enactCommand(command, comm);
+                    tag = reader.readString(in, '>', sep);
+                    if(tag != null){
+                        tag = tag.toLowerCase();
+                        if(tag.length() > 5){
+                            if(tag.substring(0, 2).contentEquals("a ") ||
+                                tag.substring(0, 4).contentEquals("base") ||
+                                tag.substring(0, 4).contentEquals("body")){
+                                    String command = extractCommand(tag);
+                                    enactCommand(tag, command);
                             }
                         }
                     }
@@ -96,12 +95,12 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * This private method checks the command string that has been identified
      * from the input stream and acts upon the command that has been found.
      */
-    private void enactCommand(String command, String comm){
+    private void enactCommand(String tag, String command){
         String URLtext;
         URL tempURL;
         try{
-            switch(command.toLowerCase()){
-                case "a":       URLtext = extractHTML(comm);
+            switch(command){
+                case "a":       URLtext = extractHTML(tag);
                                 if(!URLtext.isEmpty()){
                                     if(!checkRelative(URLtext)){
                                         tempURL = new URL(URLtext);
@@ -113,7 +112,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                 }
                                 break;
                 case "base":    if(!bodyReached){
-                                    URLtext = extractHTML(comm);
+                                    URLtext = extractHTML(tag);
                                     if(!URLtext.isEmpty()){
                                         baseURL = new URL(URLtext);
                                     }
@@ -135,11 +134,12 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * @param in an InputStream where a hyperlink is expected.
      * @return a valid hyperlink text or a null. 
      */
-    private String extractHTML(String comm){
+    private String extractHTML(String tag){
         String URLtext = null;
-        if(comm.contains("href=")){
-            int index = comm.indexOf("href=");
-            URLtext = comm.substring(index, comm.indexOf("\"", index));
+        if(tag.contains("href=")){
+            int index = tag.indexOf("href=");
+            int quotesIndex = tag.indexOf('\"', index);
+            URLtext = tag.substring(quotesIndex+1, tag.indexOf('\"', quotesIndex+1));
         }
         return URLtext;
     }

@@ -71,6 +71,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * if a relevant command cannot be extracted.
      */
     private String extractCommand(String tag){
+        tag = tag.toLowerCase();
         if(tag.substring(0, 1).contentEquals("a")){
             return "a";
         } else if (tag.substring(0, 4).contentEquals("base")){

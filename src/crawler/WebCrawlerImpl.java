@@ -2,6 +2,7 @@ package crawler;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -51,17 +52,22 @@ public abstract class WebCrawlerImpl implements WebCrawler {
      * This is the basic constructor without parameters for the WebCrawler.
      * This is used when the programmer wishes to use the default values for
      * the maxLinks and maxDepth variables.
+     * 
+     * @param URL the initial URL that the webcrawler will start from.
+     * @param conn the database connection the webcrawler will write/read to.
      */
-    WebCrawlerImpl(){}
+    public WebCrawlerImpl(String URL, Connection conn){}
     
     /**
      * This constructor allows changes to the values of the maxLinks variable
      * and/or the maxDepth variable.
      * 
+     * @param URL the initial URL that the webcrawler will start from.
+     * @param conn the database connection the webcrawler will write/read to.
      * @param maxLinks the maximum number of links to be processed.
      * @param maxDepth the maximum depth of web pages to be processed.
      */
-    WebCrawlerImpl(Integer maxLinks, Integer maxDepth){
+    public WebCrawlerImpl(String URL, Connection conn, Integer maxLinks, Integer maxDepth){
         this.maxLinks = maxLinks != null ? maxLinks : this.maxLinks;
         this.maxDepth = maxDepth != null ? maxDepth : this.maxDepth;
     }

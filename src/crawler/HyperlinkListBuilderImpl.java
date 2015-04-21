@@ -55,16 +55,12 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
         try {
             do{
                 if(reader.readUntil(in, '<', sep)){
-                    tag = reader.readString(in, '>', sep);
-                    if(tag != null){
-                        tag = tag.toLowerCase();
-                        if(tag.length() > 3){
-                            if(tag.substring(0, 2).contentEquals("a ") ||
-                                tag.substring(0, 4).contentEquals("base") ||
-                                tag.substring(0, 4).contentEquals("body")){
-                                    String command = extractCommand(tag);
-                                    enactCommand(tag, command);
-                            }
+                    char c = reader.skipSpace(in, sep);
+                    if(c != '\0' && (c == 'a' || c == 'b')){
+                        tag = c + reader.readString(in, ' ', sep);
+                        String command = extractCommand(tag);
+                        if(command != null){
+                            enactCommand(in, command);
                         }
                     }
                 }
@@ -80,12 +76,12 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * This private method extracts the command from a string. Returns a null
      * if a relevant command cannot be extracted.
      */
-    private String extractCommand(String command){
-        if(command.substring(0, 2).contentEquals("a ")){
+    private String extractCommand(String tag){
+        if(tag.substring(0, 1).contentEquals("a")){
             return "a";
-        } else if (command.substring(0, 4).contentEquals("base")){
+        } else if (tag.substring(0, 4).contentEquals("base")){
             return "base";
-        } else if (command.substring(0, 4).contentEquals("body")){
+        } else if (tag.substring(0, 4).contentEquals("body")){
             return "body";
         }
         return null;
@@ -95,12 +91,12 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * This private method checks the command string that has been identified
      * from the input stream and acts upon the command that has been found.
      */
-    private void enactCommand(String tag, String command){
+    private void enactCommand(InputStream in, String command){
         String URLtext;
         URL tempURL;
         try{
             switch(command){
-                case "a":       URLtext = extractHTML(tag);
+                case "a":       URLtext = extractHTML(in);
                                 if(!URLtext.isEmpty()){
                                     if(!checkRelative(URLtext)){
                                         tempURL = new URL(URLtext);
@@ -112,7 +108,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                 }
                                 break;
                 case "base":    if(!bodyReached){
-                                    URLtext = extractHTML(tag);
+                                    URLtext = extractHTML(in);
                                     if(!URLtext.isEmpty()){
                                         baseURL = new URL(URLtext);
                                     }
@@ -134,14 +130,22 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * @param in an InputStream where a hyperlink is expected.
      * @return a valid hyperlink text or a null. 
      */
-    private String extractHTML(String tag){
-        String URLtext = null;
-        if(tag.contains("href=")){
-            int index = tag.indexOf("href=");
-            int quotesIndex = tag.indexOf('\"', index);
-            URLtext = tag.substring(quotesIndex+1, tag.indexOf('\"', quotesIndex+1));
-        }
-        return URLtext;
+    private String extractHTML(InputStream in){
+        char tempChar;
+        String URLtext;
+        do{
+            tempChar = reader.skipSpace(in, sep);
+            if(tempChar == 'h' || tempChar == 'H'){
+                URLtext = reader.readString(in, '\"', ' ');
+                if(URLtext != null){
+                    if(URLtext.equalsIgnoreCase("ref=")){
+                        URLtext = reader.readString(in, '\"', sep);
+                        return URLtext;
+                    }
+                }
+            }
+        } while(tempChar != '\0');
+        return URLtext = "";
     }
     
     /**

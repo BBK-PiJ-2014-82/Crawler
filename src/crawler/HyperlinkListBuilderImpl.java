@@ -58,7 +58,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                     tag = reader.readString(in, '>', sep);
                     if(tag != null){
                         tag = tag.toLowerCase();
-                        if(tag.length() > 5){
+                        if(tag.length() > 3){
                             if(tag.substring(0, 2).contentEquals("a ") ||
                                 tag.substring(0, 4).contentEquals("base") ||
                                 tag.substring(0, 4).contentEquals("body")){

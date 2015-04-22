@@ -22,6 +22,8 @@ public class LinkDBImpl implements LinkDB {
     public LinkDBImpl(Connection conn){
         try {
             state = conn.createStatement();
+            state.execute("CREATE TABLE Temp(Priority INTEGER, Link VARCHAR(5000)");
+            state.execute("CREATE TABLE Results(Link VARCHAR(5000)");
         } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }

@@ -64,7 +64,14 @@ public class LinkDBImpl implements LinkDB {
     
     @Override
     public void linkVisited(String link){
-        
+        try {
+            state = conn.createStatement();
+            state.executeUpdate("UPDATE Temp "
+                    + "SET Priority=0 "
+                    + "WHERE Link='"+ link + "'");
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
     }
     
     @Override

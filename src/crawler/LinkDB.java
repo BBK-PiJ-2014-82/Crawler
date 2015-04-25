@@ -29,6 +29,14 @@ public interface LinkDB {
     boolean checkExistsTemp(String hyperlink);
     
     /**
+     * This method returns the next URL with the lowest priority from the temp
+     * table on the database.
+     * 
+     * @return The URL with the next lowest priority.
+     */
+    String getNextURL();
+    
+    /**
      * This method will change the priority number of the link passed as a
      * parameter to '0' to show that it has already been visited.
      * 

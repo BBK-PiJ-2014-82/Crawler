@@ -36,7 +36,16 @@ public class LinkDBImpl implements LinkDB {
     
     @Override
     public boolean checkExistsResult(String link){
-        return false;
+        try {
+            ResultSet result;
+            state = conn.createStatement();
+            result = state.executeQuery("SELECT * FROM Results WHERE"
+                    + " Link='" + link + "'");
+            return result.next();
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+            return true;
+        }
     }
     
     @Override

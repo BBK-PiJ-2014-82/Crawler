@@ -7,7 +7,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -163,5 +164,22 @@ public class TestLinkDB {
         assertEquals("The links are not identical.", link1, check1);
         assertEquals("The links are not identical.", link2, check2);
         assertEquals("The links are not identical.", link3, check3);
+    }
+    
+    @Test
+    public void testCheckDuplicateTemp(){
+        // Write to database table.
+        dataBase.writeTemp(1, link1);
+        dataBase.writeTemp(2, link2);
+        dataBase.writeTemp(3, link3);
+        
+        boolean duplicate;
+        
+        duplicate = dataBase.checkDuplicateTemp(link1);
+        assertTrue("The duplicate is not recognized.", duplicate);
+        duplicate = dataBase.checkDuplicateTemp(link2);
+        assertTrue("The duplicate is not recognized.", duplicate);
+        duplicate = dataBase.checkDuplicateTemp(link3);
+        assertTrue("The duplicate is not recognized.", duplicate);
     }
 }

@@ -23,7 +23,7 @@ public interface WebCrawler {
      * programmer in implementations of the interface can be stored for later
      * review by the program user.
      * 
-     * @return the a LinkedList of all links found by the WebCrawler.
+     * @return a LinkedList of all links found by the WebCrawler.
      * @param startURL the URL from which the WebCrawler will start crawling.
      * @param conn the connection that will be used to build the database.
      */

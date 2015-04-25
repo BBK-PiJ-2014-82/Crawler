@@ -17,7 +17,7 @@ public interface LinkDB {
      * @param hyperlink the hyperlink to be checked for duplication.
      * @return 'true' if the hyperlink already exists in the table.
      */
-    boolean checkDuplicateResult(String hyperlink);
+    boolean checkExistsResult(String hyperlink);
     
     /**
      * This method checks whether the hyperlink already exists within the
@@ -26,7 +26,7 @@ public interface LinkDB {
      * @param hyperlink the hyperlink to be checked for duplication.
      * @return 'true' if the hyperlink already exists in the table.
      */
-    boolean checkDuplicateTemp(String hyperlink);
+    boolean checkExistsTemp(String hyperlink);
     
     /**
      * This method will change the priority number of the link passed as a

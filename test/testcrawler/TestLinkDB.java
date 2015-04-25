@@ -51,7 +51,7 @@ public class TestLinkDB {
     }
     
     @Test
-    public void testWriteLinkToResultsTable(){
+    public void testWriteLinkToTempTable(){
         int rows = 0;
         
         // Write to database table.
@@ -80,6 +80,52 @@ public class TestLinkDB {
         // Extract the strings from the ResultSet.
         try {
             result = state.executeQuery("SELECT Link FROM Temp");
+            result.next();
+            check1 = result.getString(1);
+            result.next();
+            check2 = result.getString(1);
+            result.next();
+            check3 = result.getString(1);
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        
+        // Test the returned strings.
+        assertEquals("The links are not identical.", link1, check1);
+        assertEquals("The links are not identical.", link2, check2);
+        assertEquals("The links are not identical.", link3, check3);
+    }
+    
+    @Test
+    public void testWriteLinkToResultsTable(){
+        int rows = 0;
+        
+        // Write to database table.
+        dataBase.writeResult(link1);
+        dataBase.writeResult(link2);
+        dataBase.writeResult(link3);
+            
+        try {
+            // Get temporary table count.
+            state = conn.createStatement();
+            result = state.executeQuery("SELECT COUNT(*) FROM Temp");
+            result.next();
+            rows = result.getInt(1);
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        
+        // Test the size of the table.
+        assertEquals("The count of rows is incorrect.", 3, rows);
+        
+        // Create strings for comparison.
+        String check1 = "";
+        String check2 = "";
+        String check3 = "";
+        
+        // Extract the strings from the ResultSet.
+        try {
+            result = state.executeQuery("SELECT Results FROM Temp");
             result.next();
             check1 = result.getString(1);
             result.next();

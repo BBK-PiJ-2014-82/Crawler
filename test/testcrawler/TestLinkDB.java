@@ -196,4 +196,34 @@ public class TestLinkDB {
         nonDupe = dataBase.checkExistsTemp("https://github.com/");
         assertFalse("The duplicate is not recognized.", nonDupe);
     }
+    
+    @Test
+    public void testCheckExistsResults(){
+        // Write to database table.
+        dataBase.writeResult(link1);
+        dataBase.writeResult(link2);
+        dataBase.writeResult(link3);
+        
+        // Test for duplicates.
+        boolean duplicate;
+        duplicate = dataBase.checkExistsResult(link1);
+        assertTrue("The duplicate is not recognized.", duplicate);
+        duplicate = dataBase.checkExistsResult(link2);
+        assertTrue("The duplicate is not recognized.", duplicate);
+        duplicate = dataBase.checkExistsResult(link3);
+        assertTrue("The duplicate is not recognized.", duplicate);
+    }
+    
+    @Test
+    public void testCheckExistsResultsFails(){
+        // Write to database table.
+        dataBase.writeResult(link1);
+        dataBase.writeResult(link2);
+        dataBase.writeResult(link3);
+        
+        // Test for duplicates.
+        boolean nonDupe;
+        nonDupe = dataBase.checkExistsResult("https://github.com/");
+        assertFalse("The duplicate is not recognized.", nonDupe);
+    }
 }

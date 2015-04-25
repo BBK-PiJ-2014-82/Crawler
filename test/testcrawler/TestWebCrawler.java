@@ -36,7 +36,7 @@ public class TestWebCrawler {
     
     // Strings for the database.
     static String dbName = "testDB;";
-    static String protocol = "jdbc:derby:";
+    static String protocol = "jdbc:derby:memory:";
     
     URL testURL;
     

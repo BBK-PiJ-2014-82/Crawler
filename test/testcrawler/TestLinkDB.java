@@ -97,12 +97,12 @@ public class TestLinkDB {
         assertEquals("The links are not identical.", link2, check2);
         assertEquals("The links are not identical.", link3, check3);
         
-        // Create strings for comparison.
+        // Create integers for comparison.
         int priority1 = 0;
         int priority2 = 0;
         int priority3 = 0;
             
-        // Extract the strings from the ResultSet.
+        // Extract the integers from the ResultSet.
         try {
             result = state.executeQuery("SELECT Priority FROM Temp");
             result.next();
@@ -225,5 +225,43 @@ public class TestLinkDB {
         boolean nonDupe;
         nonDupe = dataBase.checkExistsResult("https://github.com/");
         assertFalse("The duplicate is not recognized.", nonDupe);
+    }
+    
+    @Test
+    public void checkLinkVisitedChangesPriority(){
+        // Create integers for comparison.
+        int priority1 = 1;
+        int priority2 = 2;
+        int priority3 = 3;
+        
+        // Write to database table.
+        dataBase.writeTemp(priority1, link1);
+        dataBase.writeTemp(priority2, link2);
+        dataBase.writeTemp(priority3, link3);
+        
+        // Rewrite priorities.
+        dataBase.linkVisited(link1);
+        dataBase.linkVisited(link2);
+        dataBase.linkVisited(link3);
+        
+            
+        // Extract the integers from the ResultSet.
+        try {
+            state = conn.createStatement();
+            result = state.executeQuery("SELECT Priority FROM Temp");
+            result.next();
+            priority1 = result.getInt(1);
+            result.next();
+            priority2 = result.getInt(1);
+            result.next();
+            priority3 = result.getInt(1);
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        
+        // Test the returned strings.
+        assertEquals("The links are not identical.", 0, priority1);
+        assertEquals("The links are not identical.", 0, priority2);
+        assertEquals("The links are not identical.", 0, priority3);
     }
 }

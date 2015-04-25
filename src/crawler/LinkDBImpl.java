@@ -63,6 +63,24 @@ public class LinkDBImpl implements LinkDB {
     }
     
     @Override
+    public String getNextURL(){
+        String nextURL = "";
+        try {
+            ResultSet result;
+            state = conn.createStatement();
+            result = state.executeQuery("SELECT * "
+                    + "FROM Temp "
+                    + "WHERE Priority>0");
+            if(result.next()){
+                nextURL = result.getString(2);
+            }   
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        return nextURL;
+    }
+    
+    @Override
     public void linkVisited(String link){
         try {
             state = conn.createStatement();

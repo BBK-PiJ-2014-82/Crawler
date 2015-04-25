@@ -35,39 +35,48 @@ public class LinkDBImpl implements LinkDB {
     }
     
     @Override
-    public boolean checkExistsResult(String hyperlink){
+    public boolean checkExistsResult(String link){
         return false;
     }
     
     @Override
-    public boolean checkExistsTemp(String hyperlink){
-        return false;
+    public boolean checkExistsTemp(String link){
+        try {
+            ResultSet result;
+            state = conn.createStatement();
+            result = state.executeQuery("SELECT * FROM Temp WHERE"
+                    + " Link='" + link + "'");
+            return result.next();
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+            return true;
+        }
     }
     
     @Override
-    public void linkVisited(String hyperlink){
+    public void linkVisited(String link){
         
     }
     
     @Override
-    public void writeResult(String hyperlink) {
+    public void writeResult(String link) {
         try {
             state = conn.createStatement();
             state.executeUpdate("INSERT INTO Results" +
                     " (Link)" +
-                    " VALUES ('" + hyperlink + "')");
+                    " VALUES ('" + link + "')");
         } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
     
     @Override
-    public void writeTemp(int priority, String hyperlink){
+    public void writeTemp(int priority, String link){
         try {
             state = conn.createStatement();
             state.executeUpdate("INSERT INTO Temp" +
                     " (Priority, Link)" +
-                    " VALUES (" + priority + ", '" + hyperlink + "')");
+                    " VALUES (" + priority + ", '" + link + "')");
         } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }

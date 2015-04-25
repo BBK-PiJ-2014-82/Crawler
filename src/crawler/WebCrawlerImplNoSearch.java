@@ -17,12 +17,9 @@ public class WebCrawlerImplNoSearch extends WebCrawlerImpl {
     
     /**
      * The basic constructor for this class.
-     * 
-     * @param URL the initial URL that the webcrawler will start from.
-     * @param conn the database connection the webcrawler will write/read to.
      */
-    public WebCrawlerImplNoSearch(String URL, Connection conn) {
-        super(URL, conn);
+    public WebCrawlerImplNoSearch() {
+        super();
     }
     
     /**
@@ -30,13 +27,11 @@ public class WebCrawlerImplNoSearch extends WebCrawlerImpl {
      * arguments for the maximum number of links to be searched or the
      * maximum depth of the pages that will be searched.
      * 
-     * @param URL the initial URL that the webcrawler will start from.
-     * @param conn the database connection the webcrawler will write/read to.
      * @param maxLinks the maximum number of links to be processed.
      * @param maxDepth the maximum depth of web pages to be processed.
      */
-    public WebCrawlerImplNoSearch(String URL, Connection conn, Integer maxLinks, Integer maxDepth) {
-        super(URL, conn, maxLinks, maxDepth);
+    public WebCrawlerImplNoSearch(Integer maxLinks, Integer maxDepth) {
+        super(maxLinks, maxDepth);
     }
     
     @Override

@@ -35,12 +35,12 @@ public class LinkDBImpl implements LinkDB {
     }
     
     @Override
-    public boolean checkDuplicateResult(String hyperlink){
+    public boolean checkExistsResult(String hyperlink){
         return false;
     }
     
     @Override
-    public boolean checkDuplicateTemp(String hyperlink){
+    public boolean checkExistsTemp(String hyperlink){
         return false;
     }
     

@@ -63,8 +63,10 @@ public abstract class WebCrawlerImpl implements WebCrawler {
      * @param maxDepth the maximum depth of web pages to be processed.
      */
     public WebCrawlerImpl(Integer maxLinks, Integer maxDepth){
-        this.maxLinks = maxLinks != null ? maxLinks : this.maxLinks;
-        this.maxDepth = maxDepth != null ? maxDepth : this.maxDepth;
+        if(maxLinks > 0 || maxDepth > 0){
+            this.maxLinks = maxLinks != null ? maxLinks : this.maxLinks;
+            this.maxDepth = maxDepth != null ? maxDepth : this.maxDepth;
+        }
     }
     
     @Override

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -173,7 +174,7 @@ public class TestLinkDB {
         dataBase.writeTemp(2, link2);
         dataBase.writeTemp(3, link3);
         
-        // Test for duplicat
+        // Test for duplicates.
         boolean duplicate;
         duplicate = dataBase.checkExistsTemp(link1);
         assertTrue("The duplicate is not recognized.", duplicate);
@@ -181,5 +182,18 @@ public class TestLinkDB {
         assertTrue("The duplicate is not recognized.", duplicate);
         duplicate = dataBase.checkExistsTemp(link3);
         assertTrue("The duplicate is not recognized.", duplicate);
+    }
+    
+    @Test
+    public void testCheckExistsTempFails(){
+        // Write to database table.
+        dataBase.writeTemp(1, link1);
+        dataBase.writeTemp(2, link2);
+        dataBase.writeTemp(3, link3);
+        
+        // Test for duplicates.
+        boolean nonDupe;
+        nonDupe = dataBase.checkExistsTemp("https://github.com/");
+        assertFalse("The duplicate is not recognized.", nonDupe);
     }
 }

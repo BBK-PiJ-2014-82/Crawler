@@ -1,8 +1,8 @@
 package crawler;
 
-import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -73,7 +73,8 @@ public abstract class WebCrawlerImpl implements WebCrawler {
     }
     
     @Override
-    final public File crawl(URL startURL, File temp, File results){
+    final public LinkedList<String> crawl(URL startURL, Connection conn){
+        LinkedList<String> results;
         return results;
     }
     

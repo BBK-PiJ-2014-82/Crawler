@@ -1,6 +1,7 @@
 package crawler;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -12,6 +13,7 @@ import java.sql.Statement;
 public class LinkDBImpl implements LinkDB {
     
     Statement state;
+    Connection conn;
     
     /**
      * This is the basic constructor for this class.
@@ -21,9 +23,12 @@ public class LinkDBImpl implements LinkDB {
      */
     public LinkDBImpl(Connection conn){
         try {
-            state = conn.createStatement();
-            state.execute("CREATE TABLE Temp(Priority INTEGER, Link VARCHAR(5000)");
-            state.execute("CREATE TABLE Results(Link VARCHAR(5000)");
+            this.conn = conn;
+            state = conn.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            state.execute("CREATE TABLE Temp(Priority INTEGER, Link VARCHAR(5000))");
+            state.execute("CREATE TABLE Results(Link VARCHAR(5000))");
         } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
@@ -51,6 +56,13 @@ public class LinkDBImpl implements LinkDB {
     
     @Override
     public void writeTemp(int priority, String hyperlink){
-        
+        try {
+            state = conn.createStatement();
+            state.executeUpdate("INSERT INTO Temp" +
+                    " (Priority, Link)" +
+                    " VALUES (" + priority + ", '" + hyperlink + "')");
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
     }
 }

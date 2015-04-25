@@ -1,5 +1,7 @@
 package crawler;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.LinkedList;
@@ -71,8 +73,50 @@ public abstract class WebCrawlerImpl implements WebCrawler {
     
     @Override
     final public LinkedList<String> crawl(URL startURL, Connection conn){
-        LinkedList<String> results;
-        return results;
+        // Setup all required variables and objects.
+        LinkDB dataBase = new LinkDBImpl(conn);
+        InputStream input;
+        HyperlinkListBuilder builder;
+        List<URL> linkList = new LinkedList<>();
+        String URLstring = startURL.getPath();
+        URL tempURL = startURL;
+        
+        // Loop through the links.
+        do{
+            if(!dataBase.checkExistsTemp(URLstring) &&
+                    !URLstring.contentEquals("")){
+                try {
+                    input = tempURL.openStream();
+                    builder = new HyperlinkListBuilderImpl();
+                    linkList = builder.createList(input);
+                    input.close();
+                } catch (IOException exc) {
+                    System.err.println("Error processing stream: " + exc);
+                }
+                
+                // Enter non-duplicate URL's into the temp table.
+                if(!linkList.isEmpty()){
+                    for(URL link : linkList){
+                        if(!dataBase.checkExistsTemp(link.getPath())){
+                            dataBase.writeTemp(priority, URLstring);
+                        }
+                    }
+                }
+                
+                // Enter results from 'search' onto the results table.
+                if(search(tempURL)){
+                    dataBase.writeResult(URLstring);
+                }
+            }
+            
+            // Prepare for next loop.
+            dataBase.linkVisited(URLstring);
+            URLstring = dataBase.getNextURL();
+            linksProcessed++;
+            priority++;
+        } while(priority <= maxDepth && linksProcessed <= maxLinks);
+        
+        return dataBase.returnResults();
     }
     
     /**

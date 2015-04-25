@@ -1,5 +1,7 @@
 package crawler;
 
+import java.util.LinkedList;
+
 /**
  * This is an interface defining a class for a database that can write
  * hyperlinks and their priority numbers to a 'temporary' table, modify the
@@ -43,6 +45,13 @@ public interface LinkDB {
      * @param hyperlink the hyperlink that's been visited.
      */
     void linkVisited(String hyperlink);
+    
+    /**
+     * This method returns the entire Results table as a LinkedList of Strings.
+     * 
+     * @return the entire Results table.
+     */
+    LinkedList<String> returnResults();
     
     /**
      * This method writes a hyperlink into the 'results' table.

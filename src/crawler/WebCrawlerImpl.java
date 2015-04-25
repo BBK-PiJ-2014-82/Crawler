@@ -20,14 +20,14 @@ public abstract class WebCrawlerImpl implements WebCrawler {
     /**
      * The maximum number of links that will be searched by the 'crawl' method.
      */
-    private int maxLinks = 1000;
+    private int maxLinks = 100;
     
     /**
      * The maximum depth of links that will be searched by the 'crawl' method.
      * The depth is the number of links away from the original start URL that
      * the crawler will search.
      */
-    private int maxDepth = 5;
+    private int maxDepth = 2;
     
     /**
      * This integer records the number of links that have been processed by the

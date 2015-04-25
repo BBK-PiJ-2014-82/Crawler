@@ -32,7 +32,7 @@ public interface LinkDB {
      * This method returns the next URL with the lowest priority from the temp
      * table on the database.
      * 
-     * @return The URL with the next lowest priority.
+     * @return The URL with the next lowest priority or an empty string.
      */
     String getNextURL();
     

@@ -27,7 +27,7 @@ public class TestWebCrawler {
     String testSite = "http://testingsite8.webnode.com/";
     
     // A list of expected hyperlinks.
-    String link1 = "http://us.webnode.com/personal-websites/";
+    String link1 = "http://us.webnode.com/personal-websites";
     
     // A list of relative hyperlinks.
     String rel1 = "/testpage1/";
@@ -60,8 +60,13 @@ public class TestWebCrawler {
         crawlie = new WebCrawlerImplNoSearch();
         crawlList = crawlie.crawl(testURL, conn);
         
-        boolean contains;
-        contains = crawlList.contains(link1);
+        // Test the link has been found.
+        boolean contains = false;
+        for(String s : crawlList){
+            if(s.equalsIgnoreCase(link1)){
+                contains = true;
+            }
+        }
         assertTrue("The link is not in the list.", contains);
     }
     
@@ -71,6 +76,7 @@ public class TestWebCrawler {
         crawlie = new WebCrawlerImplNoSearch(0, 0);
         crawlList = crawlie.crawl(testURL, conn);
         
+        // Test the link has been found.
         boolean contains;
         contains = crawlList.contains(link1);
         assertTrue("The link is not in the list.", contains);

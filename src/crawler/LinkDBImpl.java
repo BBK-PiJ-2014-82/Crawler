@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 /**
  * This is an implementation of the LinkDB interface.
@@ -27,10 +28,12 @@ public class LinkDBImpl implements LinkDB {
             state = conn.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
+            try{state.execute("DROP TABLE Temp");} catch (Exception e) {};
+            try{state.execute("DROP TABLE Results");} catch (Exception e) {};
             state.execute("CREATE TABLE Temp(Priority INTEGER, Link VARCHAR(5000))");
             state.execute("CREATE TABLE Results(Link VARCHAR(5000))");
         } catch (SQLException exc) {
-            System.err.println("Error processing stream: " + exc);
+            System.err.println("Error processing stream1: " + exc);
         }
     }
     
@@ -90,6 +93,23 @@ public class LinkDBImpl implements LinkDB {
         } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
+    }
+    
+    @Override
+    public LinkedList<String> returnResults(){
+        LinkedList<String> results = new LinkedList<>();
+        try {
+            ResultSet result;
+            state = conn.createStatement();
+            result = state.executeQuery("SELECT * "
+                    + "FROM Results");
+            while(result.next()){
+                results.add(result.getString(1));
+            }   
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        return results;
     }
     
     @Override

@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -24,7 +26,7 @@ public class TestLinkDB {
     Connection conn;
     
     // An object for passing commands to the database through.
-    LinkDB dataBase;
+    
     
     // Strings for the database implementation.
     String dbName = "testDB;";
@@ -42,27 +44,27 @@ public class TestLinkDB {
         try {            
             Class.forName(driver);
             conn = DriverManager.getConnection(protocol + dbName + "create=true");
-            dataBase = new LinkDBImpl(conn);
         } catch (SQLException | ClassNotFoundException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
     
-//    @After
-//    public void close(){
-//        try {
-//            conn.close();
-//            state.close();
-//        } catch (SQLException exc) {
-//            System.err.println("Error processing stream: " + exc);
-//        }
-//    }
+    @After
+    public void close(){
+        try {
+            conn.close();
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+    }
     
     @Test
     public void testWriteLinkToTempTable(){
         int rows = 0;
         ResultSet result;
         Statement state;
+        
+        LinkDB dataBase = new LinkDBImpl(conn);
         
         // Write to database table.
         dataBase.writeTemp(1, link1);
@@ -137,6 +139,8 @@ public class TestLinkDB {
         ResultSet result;
         Statement state;
         
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
         // Write to database table.
         dataBase.writeResult(link1);
         dataBase.writeResult(link2);
@@ -182,6 +186,8 @@ public class TestLinkDB {
     
     @Test
     public void testCheckExistsTemp(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+
         // Write to database table.
         dataBase.writeTemp(1, link1);
         dataBase.writeTemp(2, link2);
@@ -199,6 +205,8 @@ public class TestLinkDB {
     
     @Test
     public void testCheckExistsTempFails(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
         // Write to database table.
         dataBase.writeTemp(1, link1);
         dataBase.writeTemp(2, link2);
@@ -212,6 +220,8 @@ public class TestLinkDB {
     
     @Test
     public void testCheckExistsResults(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
         // Write to database table.
         dataBase.writeResult(link1);
         dataBase.writeResult(link2);
@@ -229,6 +239,8 @@ public class TestLinkDB {
     
     @Test
     public void testCheckExistsResultsFails(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
         // Write to database table.
         dataBase.writeResult(link1);
         dataBase.writeResult(link2);
@@ -242,6 +254,8 @@ public class TestLinkDB {
     
     @Test
     public void checkLinkVisitedChangesPriority(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
         // Create integers for comparison.
         int priority1 = 1;
         int priority2 = 2;
@@ -283,6 +297,8 @@ public class TestLinkDB {
     
     @Test
     public void testLowestPriorityReturned(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
         // Write to database table.
         dataBase.writeTemp(0, link1);
         dataBase.writeTemp(1, link2);
@@ -298,6 +314,8 @@ public class TestLinkDB {
     
     @Test
     public void testLowestPriorityReturnedWithMultipleSamePriority(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
         // Write to database table.
         dataBase.writeTemp(0, link1);
         dataBase.writeTemp(1, link2);
@@ -310,6 +328,8 @@ public class TestLinkDB {
     
     @Test
     public void testLowestPriorityReturnedProducesErrorOnAllZeroes(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+
         // Write to database table.
         dataBase.writeTemp(0, link1);
         dataBase.writeTemp(0, link2);
@@ -318,5 +338,22 @@ public class TestLinkDB {
         // Check next priority link3.
         String nextURL = dataBase.getNextURL();
         assertEquals("The URLs are not identical.", "", nextURL);
+    }
+    
+    @Test
+    public void testReturnResults(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
+        LinkedList<String> results;
+        
+        // Write to database table.
+        dataBase.writeResult(link1);
+        dataBase.writeResult(link2);
+        dataBase.writeResult(link3);
+        
+        // Check the size of the results table.
+        results = dataBase.returnResults();
+        int size = results.size();
+        assertEquals("The results table is the wrong size", 3, size);
     }
 }

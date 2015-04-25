@@ -7,10 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static junit.framework.Assert.assertEquals;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,11 +24,14 @@ public class TestLinkDB {
     // An object for passing commands to the database through.
     LinkDB dataBase;
     
+    ResultSet result;
+    
     Statement state;
     
     // Strings for the database implementation.
     String dbName = "testDB;";
-    String protocol = "jdbc:derby:";
+    String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+    String protocol = "jdbc:derby:memory:";
     
     // Strings representing hyperlinks.
     String link1 = "https://wikileaks.org";
@@ -39,26 +39,13 @@ public class TestLinkDB {
     String link3 = "https://wikileaks.org/index.en.html/index";
     
     @Before
-    public void setup(){
-        try {
-            // Setup database.
-            String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+    public void prepare(){
+        // Setup database.
+        try {            
             Class.forName(driver);
-            conn = DriverManager.getConnection(protocol + dbName);
+            conn = DriverManager.getConnection(protocol + dbName + "create=true");
             dataBase = new LinkDBImpl(conn);
-            
-            state = conn.createStatement();
-            
         } catch (SQLException | ClassNotFoundException exc) {
-            System.err.println("Error processing stream: " + exc);
-        }
-    }
-    
-    @After
-    public void close(){
-        try {
-            conn.close();
-        } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -66,22 +53,46 @@ public class TestLinkDB {
     @Test
     public void testWriteLinkToResultsTable(){
         int rows = 0;
-        ResultSet result;
         
         // Write to database table.
         dataBase.writeTemp(1, link1);
         dataBase.writeTemp(2, link2);
         dataBase.writeTemp(3, link3);
-        
+            
         try {
             // Get temporary table count.
+            state = conn.createStatement();
             result = state.executeQuery("SELECT COUNT(*) FROM Temp");
-            rows = result.getInt("rowcount");
-        } catch (SQLException ex) {
-            Logger.getLogger(TestLinkDB.class.getName()).log(Level.SEVERE, null, ex);
+            result.next();
+            rows = result.getInt(1);
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
         }
         
         // Test the size of the table.
         assertEquals("The count of rows is incorrect.", 3, rows);
+        
+        // Create strings for comparison.
+        String check1 = "";
+        String check2 = "";
+        String check3 = "";
+        
+        // Extract the strings from the ResultSet.
+        try {
+            result = state.executeQuery("SELECT Link FROM Temp");
+            result.next();
+            check1 = result.getString(1);
+            result.next();
+            check2 = result.getString(1);
+            result.next();
+            check3 = result.getString(1);
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        
+        // Test the returned strings.
+        assertEquals("The links are not identical.", link1, check1);
+        assertEquals("The links are not identical.", link2, check2);
+        assertEquals("The links are not identical.", link3, check3);
     }
 }

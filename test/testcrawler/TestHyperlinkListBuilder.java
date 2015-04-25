@@ -49,11 +49,11 @@ public class TestHyperlinkListBuilder {
     String sep = System.getProperty("line.separator");
     
     // URL strings.
-    String base = "https://wikileaks.org/index.en.html/";
+    String base = "https://wikileaks.org";
     String link1 = "https://wikileaks.org";
     String link2 = "http://www.google.com";
-    String relative1 = "index";
-    String relative2 = "About";
+    String relative1 = "/index/";
+    String relative2 = "/About/";
     
     // Strings for building the mock HTML code.
     String docType = "<!DOCTYPE html>" + sep;
@@ -180,7 +180,7 @@ public class TestHyperlinkListBuilder {
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 1, listSize);
         try{
-            testURL1 = new URL(hyperbase + relativeLink1);
+            testURL1 = new URL(base + relative1);
             assertTrue("URL not in list", testList.contains(testURL1));
             singleRelativeStream.close();
         } catch (MalformedURLException exc) {
@@ -209,8 +209,8 @@ public class TestHyperlinkListBuilder {
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 2, listSize);
         try{
-            testURL1 = new URL(hyperbase + relativeLink1);
-            testURL2 = new URL(hyperbase + relativeLink2);
+            testURL1 = new URL(base + relative1);
+            testURL2 = new URL(base + relative2);
             checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
@@ -242,18 +242,18 @@ public class TestHyperlinkListBuilder {
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 2, listSize);
         try{
-            testURL1 = new URL(hyperbase + relativeLink1);
-            testURL2 = new URL(hyperlink1);
+            testURL1 = new URL(base + relative1);
+            testURL2 = new URL(link1);
             checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
-            assertTrue("URLs not in list", testList.containsAll(checkList));
             mixed2RelativeStream.close();
         } catch (MalformedURLException exc) {
             System.err.println("Error processing stream: " + exc);
         } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
+        assertTrue("URLs not in list", testList.containsAll(checkList));
     }
     
     @Test
@@ -277,22 +277,22 @@ public class TestHyperlinkListBuilder {
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 4, listSize);
         try{
-            testURL1 = new URL(hyperbase + relativeLink1);
-            testURL2 = new URL(hyperbase + relativeLink2);
-            testURL3 = new URL(hyperlink1);
-            testURL4 = new URL(hyperlink2);
+            testURL1 = new URL(base + relative1);
+            testURL2 = new URL(base + relative2);
+            testURL3 = new URL(link1);
+            testURL4 = new URL(link2);
             checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             checkList.add(testURL3);
             checkList.add(testURL4);
-            assertTrue("URLs not in list", testList.containsAll(checkList));
             mixed4RelativeStream.close();
         } catch (MalformedURLException exc) {
             System.err.println("Error processing stream: " + exc);
         } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
+        assertTrue("URLs not in list", testList.containsAll(checkList));
     }
     
     @Test
@@ -316,22 +316,22 @@ public class TestHyperlinkListBuilder {
         listSize = testList.size();
         assertEquals("Uppercase commands not identified correctly.", 4, listSize);
         try{
-            testURL1 = new URL(hyperbaseUpper + relativeLink1);
-            testURL2 = new URL(hyperbaseUpper + relativeLink2);
-            testURL3 = new URL(hyperlinkUpper1);
-            testURL4 = new URL(hyperlinkUpper2);
+            testURL1 = new URL(base + relative1);
+            testURL2 = new URL(base + relative2);
+            testURL3 = new URL(link1);
+            testURL4 = new URL(link2);
             checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             checkList.add(testURL3);
             checkList.add(testURL4);
-            assertTrue("URLs not in list", testList.containsAll(checkList));
             mixed4RelativeUpperStream.close();
         } catch (MalformedURLException exc) {
             System.err.println("Error processing stream: " + exc);
         } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
+        assertTrue("URLs not in list", testList.containsAll(checkList));
     }
     
     @Test
@@ -355,21 +355,21 @@ public class TestHyperlinkListBuilder {
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 4, listSize);
         try{
-            testURL1 = new URL(hyperbase + relativeLink1);
-            testURL2 = new URL(hyperbase + relativeLink2);
-            testURL3 = new URL(hyperlink1);
-            testURL4 = new URL(hyperlink2);
+            testURL1 = new URL(base + relative1);
+            testURL2 = new URL(base + relative2);
+            testURL3 = new URL(link1);
+            testURL4 = new URL(link2);
             checkList = new LinkedList<>();
             checkList.add(testURL1);
             checkList.add(testURL2);
             checkList.add(testURL3);
             checkList.add(testURL4);
-            assertTrue("URLs not in list", testList.containsAll(checkList));
             mixed4RelativeSpacedStream.close();
         } catch (MalformedURLException exc) {
             System.err.println("Error processing stream: " + exc);
         } catch (IOException exc) {
             System.err.println("Error processing stream: " + exc);
         }
+        assertTrue("URLs not in list", testList.containsAll(checkList));
     }
 }

@@ -72,10 +72,13 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      */
     private String extractCommand(String tag){
         tag = tag.toLowerCase();
-        if(tag.substring(0, 1).contentEquals("a")){
-            return "a";
-        } else if (tag.substring(0, 4).contentEquals("base")){
-            return "base";
+        if(tag.length() == 1){
+            if(tag.contentEquals("a")){return "a";}
+        }
+        else if(tag.length() == 4){
+            if(tag.contentEquals("base")){
+                return "base";
+            }
         }
         return null;
     }

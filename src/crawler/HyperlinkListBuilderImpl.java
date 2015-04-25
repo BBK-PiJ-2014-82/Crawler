@@ -110,7 +110,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                 default:        break;
             }
         } catch (MalformedURLException exc) {
-            System.err.println("Error processing stream: " + exc);
+            System.err.println("Error processing stream1: " + exc);
         }
     }
     

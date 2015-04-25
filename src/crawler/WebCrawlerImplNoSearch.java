@@ -1,7 +1,6 @@
 package crawler;
 
 import java.net.URL;
-import java.sql.Connection;
 
 /**
  * This extension of the abstract class WebCrawlerImpl provides a 'search()'

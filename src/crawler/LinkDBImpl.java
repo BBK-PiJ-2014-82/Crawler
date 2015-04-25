@@ -50,8 +50,15 @@ public class LinkDBImpl implements LinkDB {
     }
     
     @Override
-    public void writeResult(String hyperlink){
-        
+    public void writeResult(String hyperlink) {
+        try {
+            state = conn.createStatement();
+            state.executeUpdate("INSERT INTO Results" +
+                    " (Link)" +
+                    " VALUES ('" + hyperlink + "')");
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
     }
     
     @Override

@@ -22,6 +22,9 @@ import org.junit.Test;
  */
 public class TestLinkDB {
     
+    ResultSet result;
+    Statement state;
+    
     // The connection to a database.
     Connection conn;
     
@@ -41,7 +44,10 @@ public class TestLinkDB {
     @Before
     public void prepare(){
         // Setup database.
-        try {            
+        try {
+            try {result.close();} catch (Exception exc) {}
+            try {state.close();} catch (Exception exc) {}
+            try {conn.close();} catch (Exception exc) {}
             Class.forName(driver);
             conn = DriverManager.getConnection(protocol + dbName + "create=true");
         } catch (SQLException | ClassNotFoundException exc) {
@@ -51,18 +57,14 @@ public class TestLinkDB {
     
     @After
     public void close(){
-        try {
-            conn.close();
-        } catch (SQLException exc) {
-            System.err.println("Error processing stream: " + exc);
-        }
+        try {result.close();} catch (Exception exc) {}
+        try {state.close();} catch (Exception exc) {}
+        try {conn.close();} catch (Exception exc) {}
     }
     
     @Test
     public void testWriteLinkToTempTable(){
         int rows = 0;
-        ResultSet result;
-        Statement state;
         
         LinkDB dataBase = new LinkDBImpl(conn);
         
@@ -136,8 +138,6 @@ public class TestLinkDB {
     @Test
     public void testWriteLinkToResultsTable(){
         int rows = 0;
-        ResultSet result;
-        Statement state;
         
         LinkDB dataBase = new LinkDBImpl(conn);
         
@@ -261,9 +261,6 @@ public class TestLinkDB {
         int priority2 = 2;
         int priority3 = 3;
         
-        ResultSet result;
-        Statement state;
-        
         // Write to database table.
         dataBase.writeTemp(priority1, link1);
         dataBase.writeTemp(priority2, link2);
@@ -273,7 +270,6 @@ public class TestLinkDB {
         dataBase.linkVisited(link1);
         dataBase.linkVisited(link2);
         dataBase.linkVisited(link3);
-        
             
         // Extract the integers from the ResultSet.
         try {

@@ -131,7 +131,7 @@ public class TestLinkDB {
         try {
             // Get temporary table count.
             state = conn.createStatement();
-            result = state.executeQuery("SELECT COUNT(*) FROM Temp");
+            result = state.executeQuery("SELECT COUNT(*) FROM Results");
             result.next();
             rows = result.getInt(1);
         } catch (SQLException exc) {
@@ -148,7 +148,7 @@ public class TestLinkDB {
         
         // Extract the strings from the ResultSet.
         try {
-            result = state.executeQuery("SELECT Results FROM Temp");
+            result = state.executeQuery("SELECT Link FROM Results");
             result.next();
             check1 = result.getString(1);
             result.next();

@@ -264,4 +264,20 @@ public class TestLinkDB {
         assertEquals("The links are not identical.", 0, priority2);
         assertEquals("The links are not identical.", 0, priority3);
     }
+    
+    @Test
+    public void testLowestPriorityReturned(){
+        // Write to database table.
+        dataBase.writeTemp(1, link1);
+        dataBase.writeTemp(2, link2);
+        dataBase.writeTemp(3, link3);
+        
+        // Rewrite priorities.
+        dataBase.linkVisited(link1);
+        dataBase.linkVisited(link2);
+        
+        // Check next priority link3.
+        String nextURL = dataBase.getNextURL();
+        assertEquals("The URLs are not identical.", link3, nextURL);
+    }
 }

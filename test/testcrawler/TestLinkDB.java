@@ -167,19 +167,19 @@ public class TestLinkDB {
     }
     
     @Test
-    public void testCheckDuplicateTemp(){
+    public void testCheckExistsTemp(){
         // Write to database table.
         dataBase.writeTemp(1, link1);
         dataBase.writeTemp(2, link2);
         dataBase.writeTemp(3, link3);
         
+        // Test for duplicat
         boolean duplicate;
-        
-        duplicate = dataBase.checkDuplicateTemp(link1);
+        duplicate = dataBase.checkExistsTemp(link1);
         assertTrue("The duplicate is not recognized.", duplicate);
-        duplicate = dataBase.checkDuplicateTemp(link2);
+        duplicate = dataBase.checkExistsTemp(link2);
         assertTrue("The duplicate is not recognized.", duplicate);
-        duplicate = dataBase.checkDuplicateTemp(link3);
+        duplicate = dataBase.checkExistsTemp(link3);
         assertTrue("The duplicate is not recognized.", duplicate);
     }
 }

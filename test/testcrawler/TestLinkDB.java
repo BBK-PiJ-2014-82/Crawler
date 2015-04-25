@@ -26,10 +26,6 @@ public class TestLinkDB {
     // An object for passing commands to the database through.
     LinkDB dataBase;
     
-    ResultSet result;
-    
-    Statement state;
-    
     // Strings for the database implementation.
     String dbName = "testDB;";
     String driver = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -52,15 +48,27 @@ public class TestLinkDB {
         }
     }
     
+//    @After
+//    public void close(){
+//        try {
+//            conn.close();
+//            state.close();
+//        } catch (SQLException exc) {
+//            System.err.println("Error processing stream: " + exc);
+//        }
+//    }
+    
     @Test
     public void testWriteLinkToTempTable(){
         int rows = 0;
+        ResultSet result;
+        Statement state;
         
         // Write to database table.
         dataBase.writeTemp(1, link1);
         dataBase.writeTemp(2, link2);
         dataBase.writeTemp(3, link3);
-            
+        
         try {
             // Get temporary table count.
             state = conn.createStatement();
@@ -81,6 +89,7 @@ public class TestLinkDB {
         
         // Extract the strings from the ResultSet.
         try {
+            state = conn.createStatement();
             result = state.executeQuery("SELECT Link FROM Temp");
             result.next();
             check1 = result.getString(1);
@@ -101,9 +110,10 @@ public class TestLinkDB {
         int priority1 = 0;
         int priority2 = 0;
         int priority3 = 0;
-            
+        
         // Extract the integers from the ResultSet.
         try {
+            state = conn.createStatement();
             result = state.executeQuery("SELECT Priority FROM Temp");
             result.next();
             priority1 = result.getInt(1);
@@ -124,6 +134,8 @@ public class TestLinkDB {
     @Test
     public void testWriteLinkToResultsTable(){
         int rows = 0;
+        ResultSet result;
+        Statement state;
         
         // Write to database table.
         dataBase.writeResult(link1);
@@ -150,6 +162,7 @@ public class TestLinkDB {
         
         // Extract the strings from the ResultSet.
         try {
+            state = conn.createStatement();
             result = state.executeQuery("SELECT Link FROM Results");
             result.next();
             check1 = result.getString(1);
@@ -233,6 +246,9 @@ public class TestLinkDB {
         int priority1 = 1;
         int priority2 = 2;
         int priority3 = 3;
+        
+        ResultSet result;
+        Statement state;
         
         // Write to database table.
         dataBase.writeTemp(priority1, link1);

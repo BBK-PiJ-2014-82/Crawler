@@ -63,20 +63,20 @@ public class TestHyperlinkListBuilder {
     String hyperbase = "<base href=\""+base+"\">" + sep;
     String hyperbaseSpaced = "<  base href=\""+base+"\">" + sep;
     String hyperbaseUpper = "<BASE href=\""+base+"\">" + sep;
-    String hyperlink1 = "<a href=\""+link1+"\">Courage is contagious</a>" + sep;
-    String hyperlink1Spaced = "<  a  href=\""+link1+"\">Courage is contagious</a>" + sep;
-    String hyperlink2 = "<a href=\""+link2+"\">Search!</a>" + sep;
-    String hyperlink2Spaced = "< a href=\""+link2+"\">Search!</a>" + sep;
+    String hyperlink1 = "<a id=\"12345\" href=\""+link1+"\">Courage is contagious</a>" + sep;
+    String hyperlink1Spaced = "<  a id=\"12345\" href=\""+link1+"\">Courage is contagious</a>" + sep;
+    String hyperlink2 = "<a id=\"12345\" href=\""+link2+"\">Search!</a>" + sep;
+    String hyperlink2Spaced = "< a id=\"12345\" href=\""+link2+"\">Search!</a>" + sep;
     String hyperlinkUpper1 = "<A href=\""+link1+"\">Courage is contagious</A>" + sep;
     String hyperlinkUpper2 = "<A href=\""+link2+"\">Search!</A>" + sep;
     String openBody = "<body>" + sep;
     String openBodySpaced = "< body >" + sep;
     String openHead = "<head>" + sep;
     String openHTML = "<html>" + sep;
-    String relativeLink1 = "<a href=\""+relative1+"\">Index</a>" + sep;
-    String relativeLink1Spaced = "< a  href=\""+relative1+"\">Index</a>" + sep;
-    String relativeLink2 = "<a href=\""+relative2+"\">About</a>" + sep;
-    String relativeLink2Spaced = "<  a  href=\""+relative2+"\">About</a>" + sep;
+    String relativeLink1 = "<a id=\"12345\" href=\""+relative1+"\">Index</a>" + sep;
+    String relativeLink1Spaced = "< a  id=\"12345\"  href=\""+relative1+"\">Index</a>" + sep;
+    String relativeLink2 = "<a id=\"12345\" href=\""+relative2+"\">About</a>" + sep;
+    String relativeLink2Spaced = "<  a id=\"12345\"  href=\""+relative2+"\">About</a>" + sep;
     
     // Strings for the URL's that will be created.
     String doubleString;

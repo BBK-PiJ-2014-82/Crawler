@@ -94,6 +94,29 @@ public class TestLinkDB {
         assertEquals("The links are not identical.", link1, check1);
         assertEquals("The links are not identical.", link2, check2);
         assertEquals("The links are not identical.", link3, check3);
+        
+        // Create strings for comparison.
+        int priority1 = 0;
+        int priority2 = 0;
+        int priority3 = 0;
+            
+        // Extract the strings from the ResultSet.
+        try {
+            result = state.executeQuery("SELECT Priority FROM Temp");
+            result.next();
+            priority1 = result.getInt(1);
+            result.next();
+            priority2 = result.getInt(1);
+            result.next();
+            priority3 = result.getInt(1);
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        
+        // Test the returned strings.
+        assertEquals("The links are not identical.", 1, priority1);
+        assertEquals("The links are not identical.", 2, priority2);
+        assertEquals("The links are not identical.", 3, priority3);
     }
     
     @Test

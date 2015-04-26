@@ -18,7 +18,8 @@ public interface HyperlinkListBuilder {
      * URL provided and return it as a List object.
      * 
      * @return the list of hyperlinks stored as URLs.
+     * @param base the String representing the base URL.
      * @param in this is the HTML document streamed for parsing.
      */
-    List<URL> createList(InputStream in);
+    List<URL> createList(String base, InputStream in);
 }

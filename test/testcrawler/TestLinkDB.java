@@ -352,4 +352,22 @@ public class TestLinkDB {
         int size = results.size();
         assertEquals("The results table is the wrong size", 3, size);
     }
+    
+    @Test
+    public void testPrioritySet(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
+        // Write to database table.
+        dataBase.writeTemp(0, link1);
+        dataBase.writeTemp(1, link2);
+        dataBase.writeTemp(2, link3);
+        
+        // Rewrite priorities.
+        dataBase.linkVisited(link2);
+        dataBase.linkVisited(link3);
+        
+        // Check priorities set.
+        String nextURL = dataBase.getNextURL();
+        assertEquals("The URLs are not identical.", "", nextURL);
+    }
 }

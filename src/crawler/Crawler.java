@@ -58,18 +58,25 @@ public class Crawler {
             list = crawl.crawl(initialURL, conn);
             
             // Print the list of results.
-            System.out.println("This is a list of the results:");
-            System.out.println();
-            list.stream().forEach((link) -> {System.out.println("   " + link);});
+            if(list.isEmpty()){
+                System.out.println("There are no results to display.");
+            } else {
+                System.out.println("This is a list of the results:");
+                System.out.println();
+                list.stream().forEach((link) -> {System.out.println("   " + link);});
+            }
             System.out.println();
             
             // Ask whether the user wishes to continue.
-            System.out.println("Would you like to continue?");
+            System.out.println("Would you like to continue? Y or N");
         } while(again);
         
         // Close the connection to the database.
         try {conn.close();} catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
+        
+        System.out.println();
+        System.out.println("Crawler closing . . .");
     }
 }

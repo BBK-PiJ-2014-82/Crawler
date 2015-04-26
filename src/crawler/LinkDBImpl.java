@@ -71,12 +71,12 @@ public class LinkDBImpl implements LinkDB {
         try {
             ResultSet result;
             state = conn.createStatement();
-            result = state.executeQuery("SELECT * "
+            result = state.executeQuery("SELECT Link "
                     + "FROM Temp "
                     + "WHERE Priority>0");
             if(result.next()){
-                nextURL = result.getString(2);
-            }   
+                nextURL = result.getString(1);
+            }
         } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }

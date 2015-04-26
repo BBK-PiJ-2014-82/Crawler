@@ -1,5 +1,5 @@
 # Crawler
-Coursework 5 for Birkbeck Programming in Java
+The Crawler has been written as my submission for Coursework 5 for Birkbeck's Programming in Java module.
 
 The Crawler is a web crawler that can search webpages from a given URL to a set number of links or a set depth of pages, all of
 which can be provided by the user.

@@ -14,8 +14,7 @@ import org.junit.runners.Suite;
         {
             TestHTMLread.class,
             TestHyperlinkListBuilder.class,
-            TestLinkDB.class,
-            TestWebCrawler.class
+            TestLinkDB.class
         })
 
 public class SuiteCrawler {}

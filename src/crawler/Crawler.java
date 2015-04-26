@@ -50,9 +50,11 @@ public class Crawler {
         
         // Loop through the functions until the user chooses not to continue.
         do{
+            int links = maxLinks();
+            int depth = maxDepth();
             initialURL = requestURL();
             System.out.println();
-            crawl = new WebCrawlerImplNoSearch(100, 2);
+            crawl = new WebCrawlerImplNoSearch(links, depth);
             list = crawl.crawl(initialURL, conn);
             printResults();
             System.out.println();
@@ -104,5 +106,39 @@ public class Crawler {
         Scanner scan = new Scanner(System.in);
         String result = scan.nextLine();
         return result.length() == 1 && result.equalsIgnoreCase("y");
+    }
+    
+    /**
+     * This method asks whether the user would like to enter a maximum number
+     * of links to search and returns a default otherwise.
+     * 
+     * @return the maximum number of links to search.
+     */
+    static private int maxLinks(){
+        System.out.print("Would you like to set a maximum number of links to crawl? ");
+        Scanner scan = new Scanner(System.in);
+        String result = scan.nextLine();
+        if(result.length() == 1 && result.equalsIgnoreCase("y")){
+            System.out.print("Type your maximum number of links: ");
+            return scan.nextInt();
+        }
+        return 100;
+    }
+    
+    /**
+     * This method asks whether the user would like to enter a maximum depth
+     * of pages to search and returns a default otherwise.
+     * 
+     * @return the maximum depth of pages to search.
+     */
+    static private int maxDepth(){
+        System.out.print("Would you like to set a maximum depth of pages to crawl? ");
+        Scanner scan = new Scanner(System.in);
+        String result = scan.nextLine();
+        if(result.length() == 1 && result.equalsIgnoreCase("y")){
+            System.out.print("Type your maximum depth of pages: ");
+            return scan.nextInt();
+        }
+        return 2;
     }
 }

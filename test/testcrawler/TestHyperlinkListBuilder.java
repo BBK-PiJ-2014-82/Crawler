@@ -49,11 +49,11 @@ public class TestHyperlinkListBuilder {
     String sep = System.getProperty("line.separator");
     
     // URL strings.
-    String base = "http://www.bbc.co.uk/news";
-    String link1 = "https://wikileaks.org";
-    String link2 = "http://www.google.com";
-    String relative1 = "/index/";
-    String relative2 = "/About/";
+    String base = "http://www.bbc.co.uk/news/";
+    String link1 = "https://wikileaks.org/";
+    String link2 = "http://www.google.com/";
+    String relative1 = "index/";
+    String relative2 = "About/";
     
     // Strings for building the mock HTML code.
     String docType = "<!DOCTYPE html>" + sep;

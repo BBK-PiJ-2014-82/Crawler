@@ -89,6 +89,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
             if(dataBase.checkExistsTemp(URLstring)
                     &&!URLstring.contentEquals("")
                     && tempURL != null){
+                
                 //dataBase.writeTemp(priority, URLstring);
                 try {
                     input = tempURL.openStream();
@@ -99,14 +100,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
                     System.err.println("Error processing stream new: " + exc);
                 }
                 
-                // Enter non-duplicate URL's into the temp table.
-                if(!linkList.isEmpty()){
-                    for(URL link : linkList){
-                        if(!dataBase.checkExistsTemp(link.toString())){
-                            dataBase.writeTemp(priority+1, link.toString());
-                        }
-                    }
-                }
+                writeToTemp(linkList, dataBase);
                 
                 // Enter results from 'search' onto the results table.
                 if(search(tempURL)){
@@ -120,7 +114,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
             dataBase.linkVisited(URLstring);
             URLstring = dataBase.getNextURL();
             linksProcessed++;
-            //priority++;
+            priority = dataBase.getNextPriority();
             
             // Try creating a URL object from the startURL.
             try {tempURL = new URL(URLstring);} catch (MalformedURLException exc)
@@ -143,4 +137,14 @@ public abstract class WebCrawlerImpl implements WebCrawler {
      * @param searchTerms terms being searched for in provided URL.
      */
     abstract public boolean search(URL currentURL, String...searchTerms);
+    
+    private void writeToTemp(List<URL> tempList, LinkDB db){
+        if(!tempList.isEmpty()){
+            for(URL link : tempList){
+                if(!db.checkExistsTemp(link.toString())){
+                    db.writeTemp(priority+1, link.toString());
+                }
+            }
+        }
+    }
 }

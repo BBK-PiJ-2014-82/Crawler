@@ -72,7 +72,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
         LinkDB dataBase = new LinkDBImpl(conn);
         InputStream input;
         HyperlinkListBuilder builder;
-        List<URL> linkList = new LinkedList<>();
+        List<URL> linkList = null;
         String URLstring = startURL;
         URL tempURL = null;
         
@@ -88,21 +88,18 @@ public abstract class WebCrawlerImpl implements WebCrawler {
         do{
             if(dataBase.checkExistsTemp(URLstring)
                     && dataBase.getPriority(URLstring) > 0){
-                
-                //dataBase.writeTemp(priority, URLstring);
                 try {
                     input = tempURL.openStream();
                     if(input.available() > 0){
                         builder = new HyperlinkListBuilderImpl();
                         linkList = builder.createList(URLstring, input);
+                        writeToTemp(linkList, dataBase);
+                        if(search(tempURL)){writeToResults(dataBase, URLstring);}
                     }
                     input.close();
                 } catch (IOException exc) {
-                    System.err.println("Error processing stream new: " + exc);
+                    System.err.println("Error processing stream: " + exc);
                 }
-                
-                writeToTemp(linkList, dataBase);
-                if(search(tempURL)){writeToResults(dataBase, URLstring);}
             }
             
             // Prepare for next loop.
@@ -114,8 +111,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
             // Try creating a URL object from the startURL.
             try {tempURL = new URL(URLstring);} catch (MalformedURLException exc)
                 {System.err.println("Error processing stream: " + exc);}
-            
-        } while(!(URLstring.isEmpty()) && priority <= maxDepth && linksProcessed <= maxLinks);
+        } while(!(tempURL.toString().isEmpty()) && priority <= maxDepth && linksProcessed <= maxLinks);
         
         return dataBase.returnResults();
     }

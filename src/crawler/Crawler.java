@@ -25,6 +25,7 @@ public class Crawler {
     
     // Strings for the interface.
     static String requestURL = "Please type in a URL you would like to crawl:";
+    static String requestContinue = "Continue wtih a new search? Y or N";
     
     // Strings for the database.
     static String dbName = "testDB;";
@@ -100,7 +101,7 @@ public class Crawler {
      */
     static private boolean userContinue(){
         boolean carryOn = false;
-        System.out.println("Continue wtih a new search? Y or N");
+        System.out.println(requestContinue);
         return carryOn;
     }
 }

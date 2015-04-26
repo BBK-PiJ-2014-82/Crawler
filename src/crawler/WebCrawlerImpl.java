@@ -101,13 +101,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
                 }
                 
                 writeToTemp(linkList, dataBase);
-                
-                // Enter results from 'search' onto the results table.
-                if(search(tempURL)){
-                    if(!dataBase.checkExistsResult(URLstring)){
-                        dataBase.writeResult(URLstring);
-                    }
-                }
+                writeToResults(tempURL, dataBase, URLstring);
             }
             
             // Prepare for next loop.
@@ -144,6 +138,14 @@ public abstract class WebCrawlerImpl implements WebCrawler {
                 if(!db.checkExistsTemp(link.toString())){
                     db.writeTemp(priority+1, link.toString());
                 }
+            }
+        }
+    }
+    
+    private void writeToResults(URL temp, LinkDB db, String tempString){
+        if(search(temp)){
+            if(!db.checkExistsResult(tempString)){
+                db.writeResult(tempString);
             }
         }
     }

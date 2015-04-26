@@ -115,7 +115,7 @@ public class Crawler {
      * @return the maximum number of links to search.
      */
     static private int maxLinks(){
-        System.out.print("Would you like to set a maximum number of links to crawl? ");
+        System.out.print("Set a maximum number of links to crawl? 'Y' to set: ");
         Scanner scan = new Scanner(System.in);
         String result = scan.nextLine();
         if(result.length() == 1 && result.equalsIgnoreCase("y")){
@@ -132,7 +132,7 @@ public class Crawler {
      * @return the maximum depth of pages to search.
      */
     static private int maxDepth(){
-        System.out.print("Would you like to set a maximum depth of pages to crawl? ");
+        System.out.print("Set a maximum depth of pages to crawl?  'Y' to set: ");
         Scanner scan = new Scanner(System.in);
         String result = scan.nextLine();
         if(result.length() == 1 && result.equalsIgnoreCase("y")){

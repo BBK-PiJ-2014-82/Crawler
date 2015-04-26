@@ -110,7 +110,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                 default:        break;
             }
         } catch (MalformedURLException exc) {
-            System.err.println("Error processing stream1: " + exc);
+            System.err.println("Error processing stream line 113: " + exc);
         }
     }
     
@@ -145,8 +145,11 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * URL.
      */
     private boolean checkRelative(String URLtext){
-        String testHTTP;
-        testHTTP = URLtext.substring(0, 4).toLowerCase();
-        return !testHTTP.contains("http");
+        if(URLtext.length() > 3){
+            String testHTTP;
+            testHTTP = URLtext.substring(0, 4).toLowerCase();
+            return !testHTTP.contains("http");
+        }
+        return true;
     }
 }

@@ -155,7 +155,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
      */
     private void writeToResults(LinkDB db, String tempString){
         if(!db.checkExistsResult(tempString)){
-            db.writeResult(priority + " - " +tempString);
+            db.writeResult(tempString);
         }
     }
 }

@@ -2,10 +2,13 @@ package crawler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This is an abstract implementation of the WebCrawler class.  It provides a
@@ -72,19 +75,26 @@ public abstract class WebCrawlerImpl implements WebCrawler {
     }
     
     @Override
-    final public LinkedList<String> crawl(URL startURL, Connection conn){
+    final public LinkedList<String> crawl(String startURL, Connection conn){
         // Setup all required variables and objects.
         LinkDB dataBase = new LinkDBImpl(conn);
         InputStream input;
         HyperlinkListBuilder builder;
         List<URL> linkList = new LinkedList<>();
-        String URLstring = startURL.getPath();
-        URL tempURL = startURL;
+        String URLstring = startURL;
+        URL tempURL = null;
+        
+        // Try creating a URL object from the startURL.
+        try {
+            tempURL = new URL(startURL);
+        } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
         
         // Loop through the links.
         do{
             if(!dataBase.checkExistsTemp(URLstring) &&
-                    !URLstring.contentEquals("")){
+                    !URLstring.contentEquals("") && tempURL != null){
                 try {
                     input = tempURL.openStream();
                     builder = new HyperlinkListBuilderImpl();

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * This class contains a 'main' method that will initiate and run the
@@ -48,27 +49,11 @@ public class Crawler {
         
         // Loop through the functions until the user chooses not to continue.
         do{
-            // Request a URL from the user.
-            System.out.println(requestURL);
-            System.out.println();
-            initialURL = "http://testingsite8.webnode.com/";
-            
-            // Start the crawler.
+            initialURL = requestURL();
             crawl = new WebCrawlerImplNoSearch(100, 3);
             list = crawl.crawl(initialURL, conn);
-            
-            // Print the list of results.
-            if(list.isEmpty()){
-                System.out.println("There are no results to display.");
-            } else {
-                System.out.println("This is a list of the results:");
-                System.out.println();
-                list.stream().forEach((link) -> {System.out.println("   " + link);});
-            }
-            System.out.println();
-            
-            // Ask whether the user wishes to continue.
-            System.out.println("Would you like to continue? Y or N");
+            printResults();
+            again = userContinue();
         } while(again);
         
         // Close the connection to the database.
@@ -78,5 +63,30 @@ public class Crawler {
         
         System.out.println();
         System.out.println("Crawler closing . . .");
+    }
+    
+    static private String requestURL(){
+        String link;
+        System.out.println(requestURL);
+        link = "http://testingsite8.webnode.com/";
+        System.out.println();
+        return link;
+    }
+    
+    static private void printResults(){
+        if(list.isEmpty()){
+            System.out.println("There are no results to display.");
+        } else {
+            System.out.println("This is a list of the results:");
+            System.out.println();
+            list.stream().forEach((link) -> {System.out.println("   " + link);});
+        }
+        System.out.println();
+    }
+    
+    static private boolean userContinue(){
+        boolean carryOn = false;
+        System.out.println("Would you like to continue? Y or N");
+        return carryOn;
     }
 }

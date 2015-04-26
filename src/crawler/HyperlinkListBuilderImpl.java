@@ -93,7 +93,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
         try{
             switch(command){
                 case "a":       URLtext = extractHTML(in);
-                                if(!URLtext.isEmpty()){
+                                if(URLtext != null){
                                     if(URLtext.length() > 9){
                                         if(URLtext.substring(0, 10).equalsIgnoreCase("javascript")){
                                             ifJavaScript = true;
@@ -111,7 +111,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                 }
                                 break;
                 case "base":    URLtext = extractHTML(in);
-                                if(!URLtext.isEmpty()){
+                                if(URLtext != null){
                                     if(URLtext.length() > 9){
                                         if(URLtext.substring(0, 10).equalsIgnoreCase("javascript")){
                                             ifJavaScript = true;

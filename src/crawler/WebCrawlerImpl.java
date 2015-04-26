@@ -80,40 +80,41 @@ public abstract class WebCrawlerImpl implements WebCrawler {
         try {
             tempURL = new URL(URLstring);
             dataBase.writeTemp(priority, tempURL.toString());
+            
+            // Loop through the links.
+            do{
+                if(dataBase.checkExistsTemp(tempURL.toString())
+                        && dataBase.getPriority(tempURL.toString()) > 0){
+                    try {
+                        input = tempURL.openStream();
+                        if(input.available() > 0){
+                            builder = new HyperlinkListBuilderImpl();
+                            linkList = builder.createList(tempURL.toString(), input);
+                            writeToTemp(linkList, dataBase);
+                            if(search(tempURL)){writeToResults(dataBase, tempURL.toString());}
+                        }
+                        input.close();
+                    } catch (IOException exc) {
+                        System.err.println("Error processing stream: " + exc);
+                    }
+                }
+
+                // Prepare for next loop.
+                dataBase.linkVisited(tempURL.toString());
+                URLstring = dataBase.getNextURL();
+                priority = dataBase.getNextPriority();
+                linksProcessed++;
+
+                // Try creating a URL object from the startURL.
+                try {tempURL = new URL(URLstring);} catch (MalformedURLException exc)
+                    {System.err.println("Error processing stream: " + exc);}
+            } while(priority <= maxDepth && linksProcessed <= maxLinks);
+
+            return dataBase.returnResults();
         } catch (MalformedURLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
-        
-        // Loop through the links.
-        do{
-            if(dataBase.checkExistsTemp(tempURL.toString())
-                    && dataBase.getPriority(tempURL.toString()) > 0){
-                try {
-                    input = tempURL.openStream();
-                    if(input.available() > 0){
-                        builder = new HyperlinkListBuilderImpl();
-                        linkList = builder.createList(tempURL.toString(), input);
-                        writeToTemp(linkList, dataBase);
-                        if(search(tempURL)){writeToResults(dataBase, tempURL.toString());}
-                    }
-                    input.close();
-                } catch (IOException exc) {
-                    System.err.println("Error processing stream: " + exc);
-                }
-            }
-            
-            // Prepare for next loop.
-            dataBase.linkVisited(tempURL.toString());
-            URLstring = dataBase.getNextURL();
-            priority = dataBase.getNextPriority();
-            linksProcessed++;
-            
-            // Try creating a URL object from the startURL.
-            try {tempURL = new URL(URLstring);} catch (MalformedURLException exc)
-                {System.err.println("Error processing stream: " + exc);}
-        } while(priority <= maxDepth && linksProcessed <= maxLinks);
-        
-        return dataBase.returnResults();
+        return null;
     }
     
     /**
@@ -154,7 +155,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
      */
     private void writeToResults(LinkDB db, String tempString){
         if(!db.checkExistsResult(tempString)){
-            db.writeResult(tempString);
+            db.writeResult(priority + " - " +tempString);
         }
     }
 }

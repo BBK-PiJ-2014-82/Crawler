@@ -123,8 +123,8 @@ public class Crawler {
             if(scan.hasNextInt()){
                 return scan.nextInt();
             }
+            System.out.println("Invalid input: using default.");
         }
-        System.out.println("Invalid input: using default.");
         return 100;
     }
     
@@ -143,8 +143,8 @@ public class Crawler {
             if(scan.hasNextInt()){
                 return scan.nextInt();
             }
+            System.out.println("Invalid input: using default.");
         }
-        System.out.println("Invalid input: using default.");
         return 2;
     }
 }

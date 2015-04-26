@@ -6,6 +6,8 @@ which can be provided by the user.
 
 The Crawler is an application with a minimal text based user interface through which the user can define their starting URL and other parameters.
 
+The crawler does not accept any arguments from the command line currently although this is planned as a second version feature which will enable search terms to be passed to the application.
+
 The Crawler has been written to use the javaDB derby database class. You will need to ensure that you have your path set to a Derby folder on your hard drive in order to compile this application.  More information abou the Derby database can be found at the following link:
 
   http://www.oracle.com/technetwork/java/javadb/overview/index.html

@@ -120,8 +120,11 @@ public class Crawler {
         String result = scan.nextLine();
         if(result.length() == 1 && result.equalsIgnoreCase("y")){
             System.out.print("Type your maximum number of links: ");
-            return scan.nextInt();
+            if(scan.hasNextInt()){
+                return scan.nextInt();
+            }
         }
+        System.out.println("Invalid input: using default.");
         return 100;
     }
     
@@ -137,8 +140,11 @@ public class Crawler {
         String result = scan.nextLine();
         if(result.length() == 1 && result.equalsIgnoreCase("y")){
             System.out.print("Type your maximum depth of pages: ");
-            return scan.nextInt();
+            if(scan.hasNextInt()){
+                return scan.nextInt();
+            }
         }
+        System.out.println("Invalid input: using default.");
         return 2;
     }
 }

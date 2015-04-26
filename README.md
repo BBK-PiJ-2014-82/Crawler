@@ -4,6 +4,8 @@ The Crawler has been written as my submission for Coursework 5 for Birkbeck's Pr
 The Crawler is a web crawler that can search webpages from a given URL to a set number of links or a set depth of pages, all of
 which can be provided by the user.
 
+The main method for this application is the class Crawler which you should define as your main class in your IDE if you compile it.
+
 The Crawler is an application with a minimal text based user interface through which the user can define their starting URL and other parameters.
 
 The crawler does not accept any arguments from the command line currently although this is planned as a second version feature which will enable search terms to be passed to the application.

@@ -1,6 +1,5 @@
 package crawler;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.util.LinkedList;
 
@@ -27,5 +26,5 @@ public interface WebCrawler {
      * @param startURL the URL from which the WebCrawler will start crawling.
      * @param conn the connection that will be used to build the database.
      */
-    LinkedList<String> crawl(URL startURL, Connection conn);
+    LinkedList<String> crawl(String startURL, Connection conn);
 }

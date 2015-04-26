@@ -5,6 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+/**
+ * This class contains a 'main' method that will initiate and run the
+ * web crawler. It will request a URL, maximum number of links to search and 
+ * maximum depth of pages to search from the user.  It will then print all
+ * resulting URL's found from the search.  Finally, it will request whether
+ * the user would like to do a second search.
+ * 
+ * @author James Hill
+ */
 public class Crawler {
     
     static boolean again = false;
@@ -20,6 +29,12 @@ public class Crawler {
     static String dbName = "testDB;";
     static String protocol = "jdbc:derby:memory:";
     
+    /**
+     * This is the main method from which the web crawler will be run. In this
+     * case the 'args' parameter is ignored.
+     * 
+     * @param args ignored.
+     */
     public static void main(String[] args) {
         
         // Setup the connection for an embedded database.
@@ -49,9 +64,8 @@ public class Crawler {
             System.out.println("Would you like to continue?");
         } while(again);
         
-        try {
-            conn.close();
-        } catch (SQLException exc) {
+        // Close the connection to the database.
+        try {conn.close();} catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }

@@ -98,7 +98,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                     if(!checkRelative(URLtext)){
                                         tempURL = new URL(URLtext);
                                         linkList.add(tempURL);
-                                    } else if (baseURL != null){
+                                    } else {
                                         tempURL = new URL(baseURL, URLtext);
                                         linkList.add(tempURL);
                                     }

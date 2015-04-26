@@ -39,6 +39,13 @@ public interface LinkDB {
     String getNextURL();
     
     /**
+     * This method returns the next highest priority number greater than zero.
+     * 
+     * @return the highest priority number greater than zero.
+     */
+    int getNextPriority();
+    
+    /**
      * This method will change the priority number of the link passed as a
      * parameter to '0' to show that it has already been visited.
      * 

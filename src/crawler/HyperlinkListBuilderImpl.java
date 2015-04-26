@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This is an implementation of the HyperlinkListBuilder interface.
@@ -43,8 +45,13 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     }
     
     @Override
-    public List<URL> createList(InputStream in) {
+    public List<URL> createList(String base, InputStream in) {
         linkList = new LinkedList<>();
+        try {
+            baseURL = new URL(base);
+        } catch (MalformedURLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
         String tag;
         try {
             do{
@@ -72,14 +79,8 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      */
     private String extractCommand(String tag){
         tag = tag.toLowerCase();
-        if(tag.length() == 1){
-            if(tag.contentEquals("a")){return "a";}
-        }
-        else if(tag.length() == 4){
-            if(tag.contentEquals("base")){
-                return "base";
-            }
-        }
+        if(tag.length() == 1){if(tag.contentEquals("a")){return "a";}}
+        else if(tag.length() == 4){if(tag.contentEquals("base")){return "base";}}
         return null;
     }
     

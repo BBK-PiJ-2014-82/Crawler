@@ -60,7 +60,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                     if(c != '\0' && (c == 'a' || c == 'b')){
                         tag = c + reader.readString(in, ' ', '>');
                         String command = extractCommand(tag);
-                        if(command != null){
+                        if(command != null && in.available() > 0){
                             enactCommand(in, command);
                         }
                     }

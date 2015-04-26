@@ -58,7 +58,9 @@ public class Crawler {
             list = crawl.crawl(initialURL, conn);
             
             // Print the list of results.
-            list.stream().forEach((link) -> {System.out.println("   "+link);});
+            System.out.println("This is a list of the results:");
+            System.out.println();
+            list.stream().forEach((link) -> {System.out.println("   " + link);});
             System.out.println();
             
             // Ask whether the user wishes to continue.

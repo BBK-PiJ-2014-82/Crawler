@@ -98,7 +98,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
                 try {
                     input = tempURL.openStream();
                     builder = new HyperlinkListBuilderImpl();
-                    linkList = builder.createList(input);
+                    linkList = builder.createList(URLstring, input);
                     input.close();
                 } catch (IOException exc) {
                     System.err.println("Error processing stream: " + exc);
@@ -124,6 +124,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
             URLstring = dataBase.getNextURL();
             linksProcessed++;
             priority++;
+            
         } while(priority <= maxDepth && linksProcessed <= maxLinks);
         
         return dataBase.returnResults();

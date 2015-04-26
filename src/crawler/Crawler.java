@@ -87,7 +87,7 @@ public class Crawler {
      * Prints the list of results to the output for the user to see.
      */
     static private void printResults(){
-        if(list.isEmpty()){
+        if(list == null){
             System.out.println("There are no results to display.");
         } else {
             System.out.println("This is a list of the results:");

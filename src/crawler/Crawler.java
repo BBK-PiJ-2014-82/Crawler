@@ -24,8 +24,8 @@ public class Crawler {
     static WebCrawler crawl;
     
     // Strings for the interface.
-    static String requestURL = "Please type in a URL you would like to crawl:";
-    static String requestContinue = "Continue wtih a new search? Y or N";
+    static String requestURL = "Type in a URL you would like to crawl from: ";
+    static String requestContinue = "Continue with searching? 'Y' to continue: ";
     
     // Strings for the database.
     static String dbName = "testDB;";
@@ -51,9 +51,11 @@ public class Crawler {
         // Loop through the functions until the user chooses not to continue.
         do{
             initialURL = requestURL();
-            crawl = new WebCrawlerImplNoSearch(100, 3);
+            System.out.println();
+            crawl = new WebCrawlerImplNoSearch(100, 2);
             list = crawl.crawl(initialURL, conn);
             printResults();
+            System.out.println();
             again = userContinue();
         } while(again);
         
@@ -73,10 +75,9 @@ public class Crawler {
      * @return a URL as entered by the user.
      */
     static private String requestURL(){
-        String link;
-        System.out.println(requestURL);
-        link = "http://www.bbc.co.uk/news";
-        System.out.println();
+        System.out.print(requestURL);
+        Scanner scan = new Scanner(System.in);
+        String link = scan.nextLine();
         return link;
     }
     
@@ -91,7 +92,6 @@ public class Crawler {
             System.out.println();
             list.stream().forEach((link) -> {System.out.println("   " + link);});
         }
-        System.out.println();
     }
     
     /**
@@ -100,8 +100,9 @@ public class Crawler {
      * @return the users response to the question.
      */
     static private boolean userContinue(){
-        boolean carryOn = false;
-        System.out.println(requestContinue);
-        return carryOn;
+        System.out.print(requestContinue);
+        Scanner scan = new Scanner(System.in);
+        String result = scan.nextLine();
+        return result.length() == 1 && result.equalsIgnoreCase("y");
     }
 }

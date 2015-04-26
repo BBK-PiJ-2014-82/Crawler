@@ -66,6 +66,11 @@ public class Crawler {
         System.out.println("Crawler closing . . .");
     }
     
+    /**
+     * Requests a URL from the user, checks and returns it as a String.
+     * 
+     * @return a URL as entered by the user.
+     */
     static private String requestURL(){
         String link;
         System.out.println(requestURL);
@@ -74,6 +79,9 @@ public class Crawler {
         return link;
     }
     
+    /**
+     * Prints the list of results to the output for the user to see.
+     */
     static private void printResults(){
         if(list.isEmpty()){
             System.out.println("There are no results to display.");
@@ -85,9 +93,14 @@ public class Crawler {
         System.out.println();
     }
     
+    /**
+     * Asks the user if they would like to continue with a new search.
+     * 
+     * @return the users response to the question.
+     */
     static private boolean userContinue(){
         boolean carryOn = false;
-        System.out.println("Would you like to continue? Y or N");
+        System.out.println("Continue wtih a new search? Y or N");
         return carryOn;
     }
 }

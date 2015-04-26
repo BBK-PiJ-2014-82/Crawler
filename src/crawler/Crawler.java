@@ -61,6 +61,7 @@ public class Crawler {
             System.err.println("Error processing stream: " + exc);
         }
         
+        // Show the user the program is complete.
         System.out.println();
         System.out.println("Crawler closing . . .");
     }
@@ -68,7 +69,7 @@ public class Crawler {
     static private String requestURL(){
         String link;
         System.out.println(requestURL);
-        link = "http://testingsite8.webnode.com/";
+        link = "http://www.bbc.co.uk/news";
         System.out.println();
         return link;
     }

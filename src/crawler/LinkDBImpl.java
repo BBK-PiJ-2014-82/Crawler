@@ -102,6 +102,24 @@ public class LinkDBImpl implements LinkDB {
     }
     
     @Override
+    public int getPriority(String link){
+        int priority = -1;
+        try {
+            ResultSet result;
+            state = conn.createStatement();
+            result = state.executeQuery("SELECT Priority "
+                    + "FROM Temp "
+                    + "WHERE Link = '" + link + "'");
+            if(result.next()){
+                priority = result.getInt(1);
+            }
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        return priority;
+    }
+    
+    @Override
     public void linkVisited(String link){
         try {
             state = conn.createStatement();

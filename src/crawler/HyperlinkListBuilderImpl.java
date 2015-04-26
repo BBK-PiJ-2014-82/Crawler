@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This is an implementation of the HyperlinkListBuilder interface.
@@ -124,7 +126,7 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                 default:        break;
             }
         } catch (MalformedURLException exc) {
-            System.err.println("Error processing stream line 113: " + exc);
+            System.err.println("Error processing stream: " + exc);
         }
     }
     
@@ -139,21 +141,27 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
     private String extractHTML(InputStream in){
         char tempChar;
         String URLtext = "";
-        do{
-            tempChar = reader.skipSpace(in, sep);
-            if(tempChar == 'h' || tempChar == 'H'){
-                URLtext = reader.readString(in, '\"', ' ');
-                if(URLtext != null){
-                    if(URLtext.equalsIgnoreCase("ref=")){
-                        URLtext = reader.readString(in, '\"', sep);
-                        return URLtext;
+        try {
+            if(in.available() > 0){
+                do{
+                    tempChar = reader.skipSpace(in, sep);
+                    if(tempChar == 'h' || tempChar == 'H'){
+                        URLtext = reader.readString(in, '\"', ' ');
+                        if(URLtext != null){
+                            if(URLtext.equalsIgnoreCase("ref=")){
+                                URLtext = reader.readString(in, '\"', sep);
+                                return URLtext;
+                            }
+                        }
                     }
-                }
+                } while(tempChar != '\0');
             }
-        } while(tempChar != '\0');
+        } catch (IOException exc) {
+            System.err.println("Error processing stream line 113: " + exc);
+        }
         return URLtext;
     }
-    
+        
     /**
      * This method checks if the string represents either a relative or absolute
      * URL.

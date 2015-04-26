@@ -93,7 +93,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
                         input = tempURL.openStream();
                         if(input.available() > 0){
                             builder = new HyperlinkListBuilderImpl();
-                            linkList = builder.createList(URLstring, input);
+                            linkList = builder.createList(tempURL.toString(), input);
                             writeToTemp(linkList, dataBase);
                             if(search(tempURL)){writeToResults(dataBase, URLstring);}
                         }

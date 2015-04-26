@@ -89,13 +89,19 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
      * from the input stream and acts upon the command that has been found.
      */
     private void enactCommand(InputStream in, String command){
+        boolean ifJavaScript = false;
         String URLtext;
         URL tempURL;
         try{
             switch(command){
                 case "a":       URLtext = extractHTML(in);
                                 if(!URLtext.isEmpty()){
-                                    if(!(URLtext.substring(0, 10).equalsIgnoreCase("javascript"))){
+                                    if(URLtext.length() > 9){
+                                        if(URLtext.substring(0, 10).equalsIgnoreCase("javascript")){
+                                            ifJavaScript = true;
+                                        }
+                                    }
+                                    if(!ifJavaScript){
                                         if(!checkRelative(URLtext)){
                                             tempURL = new URL(URLtext);
                                             linkList.add(tempURL);
@@ -108,7 +114,12 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
                                 break;
                 case "base":    URLtext = extractHTML(in);
                                 if(!URLtext.isEmpty()){
-                                    if(!(URLtext.substring(0, 10).equalsIgnoreCase("javascript"))){
+                                    if(URLtext.length() > 9){
+                                        if(URLtext.substring(0, 10).equalsIgnoreCase("javascript")){
+                                            ifJavaScript = true;
+                                        }
+                                    }
+                                    if(!ifJavaScript){
                                         baseURL = new URL(URLtext);
                                     }
                                 }

@@ -46,11 +46,12 @@ public class Crawler {
             System.err.println("Error processing stream: " + exc);
         }
         
+        // Loop through the functions until the user chooses not to continue.
         do{
             // Request a URL from the user.
             System.out.println(requestURL);
             System.out.println();
-            initialURL = "http://www.bbc.co.uk/news";
+            initialURL = "http://testingsite8.webnode.com/";
             
             // Start the crawler.
             crawl = new WebCrawlerImplNoSearch(100, 3);

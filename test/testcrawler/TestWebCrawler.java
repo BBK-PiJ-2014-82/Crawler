@@ -48,8 +48,7 @@ public class TestWebCrawler {
             String driver = "org.apache.derby.jdbc.EmbeddedDriver";
             Class.forName(driver).newInstance();
             conn = DriverManager.getConnection(protocol + dbName + "create=true");
-            testURL = new URL(testSite);
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | MalformedURLException | SQLException exc) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
     }
@@ -58,7 +57,7 @@ public class TestWebCrawler {
     public void testCrawlerReturns1stPageReferences(){
         // Setup the webcrawler.
         crawlie = new WebCrawlerImplNoSearch();
-        crawlList = crawlie.crawl(testURL, conn);
+        crawlList = crawlie.crawl(testSite, conn);
         
         // Test the link has been found.
         boolean contains = false;
@@ -74,7 +73,7 @@ public class TestWebCrawler {
     public void testCrawlerReturnsIgnoresUnhelpfulValues(){
         // Setup the webcrawler.
         crawlie = new WebCrawlerImplNoSearch(0, 0);
-        crawlList = crawlie.crawl(testURL, conn);
+        crawlList = crawlie.crawl(testSite, conn);
         
         // Test the link has been found.
         boolean contains;
@@ -86,7 +85,7 @@ public class TestWebCrawler {
     public void testCrawlerReturns1stPageReferencesWithMaxLinks(){
         // Setup the webcrawler.
         crawlie = new WebCrawlerImplNoSearch(4, 1000);
-        crawlList = crawlie.crawl(testURL, conn);
+        crawlList = crawlie.crawl(testSite, conn);
         
         // Test the size of the list is correct.
         int size = crawlList.size();
@@ -97,7 +96,7 @@ public class TestWebCrawler {
     public void testCrawlerReturns1stPageReferencesWithMaxDepth(){
         // Setup the webcrawler.
         crawlie = new WebCrawlerImplNoSearch(1000, 1);
-        crawlList = crawlie.crawl(testURL, conn);
+        crawlList = crawlie.crawl(testSite, conn);
         
         // Test the size of the list is correct.
         int size = crawlList.size();

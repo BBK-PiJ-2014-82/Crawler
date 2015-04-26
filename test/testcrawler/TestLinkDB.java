@@ -370,4 +370,21 @@ public class TestLinkDB {
         String nextURL = dataBase.getNextURL();
         assertEquals("The URLs are not identical.", "", nextURL);
     }
+    
+    @Test
+    public void testGetPriority(){
+        LinkDB dataBase = new LinkDBImpl(conn);
+        
+        // Write to database table.
+        dataBase.writeTemp(0, link1);
+        dataBase.writeTemp(1, link2);
+        dataBase.writeTemp(2, link3);
+        
+        // Rewrite priorities.
+        dataBase.linkVisited(link2);
+        
+        // Check next priority link3.
+        int nextPriority = dataBase.getNextPriority();
+        assertEquals("The priorities are not identical.", 2, nextPriority);
+    }
 }

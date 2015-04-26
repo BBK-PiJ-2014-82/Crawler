@@ -95,18 +95,22 @@ public class HyperlinkListBuilderImpl implements HyperlinkListBuilder {
             switch(command){
                 case "a":       URLtext = extractHTML(in);
                                 if(!URLtext.isEmpty()){
-                                    if(!checkRelative(URLtext)){
-                                        tempURL = new URL(URLtext);
-                                        linkList.add(tempURL);
-                                    } else {
-                                        tempURL = new URL(baseURL, URLtext);
-                                        linkList.add(tempURL);
+                                    if(!(URLtext.substring(0, 10).equalsIgnoreCase("javascript"))){
+                                        if(!checkRelative(URLtext)){
+                                            tempURL = new URL(URLtext);
+                                            linkList.add(tempURL);
+                                        } else {
+                                            tempURL = new URL(baseURL, URLtext);
+                                            linkList.add(tempURL);
+                                        }
                                     }
                                 }
                                 break;
                 case "base":    URLtext = extractHTML(in);
                                 if(!URLtext.isEmpty()){
-                                    baseURL = new URL(URLtext);
+                                    if(!(URLtext.substring(0, 10).equalsIgnoreCase("javascript"))){
+                                        baseURL = new URL(URLtext);
+                                    }
                                 }
                 default:        break;
             }

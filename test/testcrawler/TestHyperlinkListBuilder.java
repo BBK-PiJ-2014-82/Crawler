@@ -49,7 +49,7 @@ public class TestHyperlinkListBuilder {
     String sep = System.getProperty("line.separator");
     
     // URL strings.
-    String base = "https://wikileaks.org";
+    String base = "http://www.bbc.co.uk/news";
     String link1 = "https://wikileaks.org";
     String link2 = "http://www.google.com";
     String relative1 = "/index/";
@@ -69,6 +69,7 @@ public class TestHyperlinkListBuilder {
     String hyperlink2Spaced = "< a id=\"12345\" href=\""+link2+"\">Search!</a>" + sep;
     String hyperlinkUpper1 = "<A href=\""+link1+"\">Courage is contagious</A>" + sep;
     String hyperlinkUpper2 = "<A href=\""+link2+"\">Search!</A>" + sep;
+    String javaLink = "<a id=\"12345\" href=\"javascript:void(0);\">Courage is contagious</a>" + sep;
     String openBody = "<body>" + sep;
     String openBodySpaced = "< body >" + sep;
     String openHead = "<head>" + sep;
@@ -102,7 +103,7 @@ public class TestHyperlinkListBuilder {
         zeroString = "";
         zeroStream = new ByteArrayInputStream(
                 zeroString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(zeroStream);
+        testList = build.createList(base, zeroStream);
         isEmpty = testList.isEmpty();
         assertTrue("The returned List is not empty.", isEmpty);
     }
@@ -118,7 +119,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         singleStream = new ByteArrayInputStream(
                 singleString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(singleStream);
+        testList = build.createList(base, singleStream);
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 1, listSize);
         try{
@@ -144,7 +145,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         doubleStream = new ByteArrayInputStream(
                 doubleString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(doubleStream);
+        testList = build.createList(base, doubleStream);
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 2, listSize);
         try{
@@ -176,7 +177,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         singleRelativeStream = new ByteArrayInputStream(
                 singleRelativeString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(singleRelativeStream);
+        testList = build.createList(base, singleRelativeStream);
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 1, listSize);
         try{
@@ -205,7 +206,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         doubleRelativeStream = new ByteArrayInputStream(
                 doubleRelativeString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(doubleRelativeStream);
+        testList = build.createList(base, doubleRelativeStream);
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 2, listSize);
         try{
@@ -238,7 +239,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         mixed2RelativeStream = new ByteArrayInputStream(
                 mixed2RelativeString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(mixed2RelativeStream);
+        testList = build.createList(base, mixed2RelativeStream);
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 2, listSize);
         try{
@@ -273,7 +274,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         mixed4RelativeStream = new ByteArrayInputStream(
                 mixed4RelativeString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(mixed4RelativeStream);
+        testList = build.createList(base, mixed4RelativeStream);
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 4, listSize);
         try{
@@ -312,7 +313,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         mixed4RelativeUpperStream = new ByteArrayInputStream(
                 mixed4RelativeUpperString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(mixed4RelativeUpperStream);
+        testList = build.createList(base, mixed4RelativeUpperStream);
         listSize = testList.size();
         assertEquals("Uppercase commands not identified correctly.", 4, listSize);
         try{
@@ -351,7 +352,7 @@ public class TestHyperlinkListBuilder {
                 closeHTML;
         mixed4RelativeSpacedStream = new ByteArrayInputStream(
                 mixed4RelativeSpacedString.getBytes(StandardCharsets.ISO_8859_1));
-        testList = build.createList(mixed4RelativeSpacedStream);
+        testList = build.createList(base, mixed4RelativeSpacedStream);
         listSize = testList.size();
         assertEquals("The List size is incorrect.", 4, listSize);
         try{
@@ -371,5 +372,21 @@ public class TestHyperlinkListBuilder {
             System.err.println("Error processing stream: " + exc);
         }
         assertTrue("URLs not in list", testList.containsAll(checkList));
+    }
+    
+    @Test
+    public void checkCreateListIgnoresJavaScript(){
+        singleString =
+                docType +
+                openHTML +
+                openBody +
+                javaLink +
+                closeBody +
+                closeHTML;
+        singleStream = new ByteArrayInputStream(
+                singleString.getBytes(StandardCharsets.ISO_8859_1));
+        testList = build.createList(base, singleStream);
+        listSize = testList.size();
+        assertEquals("The List size is incorrect.", 0, listSize);
     }
 }

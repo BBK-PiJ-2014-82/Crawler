@@ -43,7 +43,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
      * The links will be given a priority number that reflects the depth of the
      * web page away from the initial URL provided to the class.
      */
-    private int priority = 0;
+    private int priority = 1;
     
     /**
      * This is the basic constructor without parameters for the WebCrawler.
@@ -87,8 +87,7 @@ public abstract class WebCrawlerImpl implements WebCrawler {
         // Loop through the links.
         do{
             if(dataBase.checkExistsTemp(URLstring)
-                    &&!URLstring.contentEquals("")
-                    && tempURL != null){
+                    && dataBase.getPriority(URLstring) > 0){
                 
                 //dataBase.writeTemp(priority, URLstring);
                 try {

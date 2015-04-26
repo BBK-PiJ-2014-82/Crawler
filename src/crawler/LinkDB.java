@@ -46,6 +46,14 @@ public interface LinkDB {
     int getNextPriority();
     
     /**
+     * This method returns the priority number of the provided link.
+     * 
+     * @param hyperlink the link for which the priority number is needed.
+     * @return the priority number of the link.
+     */
+    int getPriority(String hyperlink);
+    
+    /**
      * This method will change the priority number of the link passed as a
      * parameter to '0' to show that it has already been visited.
      * 

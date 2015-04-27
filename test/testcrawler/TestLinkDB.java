@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -60,6 +62,12 @@ public class TestLinkDB {
         try {result.close();} catch (Exception exc) {}
         try {state.close();} catch (Exception exc) {}
         try {conn.close();} catch (Exception exc) {}
+        try {
+            DriverManager.getConnection(protocol + dbName + "drop=true");
+        } catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        
     }
     
     @Test

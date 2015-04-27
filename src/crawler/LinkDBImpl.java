@@ -28,8 +28,6 @@ public class LinkDBImpl implements LinkDB {
             state = conn.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            try{state.execute("DROP TABLE Temp");} catch (Exception e) {};
-            try{state.execute("DROP TABLE Results");} catch (Exception e) {};
             state.execute("CREATE TABLE Temp(Priority INTEGER, Link VARCHAR(5000))");
             state.execute("CREATE TABLE Results(Link VARCHAR(5000))");
         } catch (SQLException exc) {

@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class contains a 'main' method that will initiate and run the
@@ -63,6 +65,12 @@ public class Crawler {
         
         // Close the connection to the database.
         try {conn.close();} catch (SQLException exc) {
+            System.err.println("Error processing stream: " + exc);
+        }
+        
+        try {
+            DriverManager.getConnection(protocol + dbName + "drop=true");
+        } catch (SQLException exc) {
             System.err.println("Error processing stream: " + exc);
         }
         
